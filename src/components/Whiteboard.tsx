@@ -65,6 +65,7 @@ const Whiteboard: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<Theme>('light');
   const [penThickness, setPenThickness] = useState<number>(2);
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 }); // Logical size
+  const [drawingMode, setDrawingMode] = useState<'draw' | 'erase'>('draw'); // New state for draw/erase mode
 
   const activeThemeColors = themes[currentTheme];
 
@@ -170,7 +171,8 @@ const Whiteboard: React.FC = () => {
 
     context.beginPath();
     context.moveTo(currentPosition.x, currentPosition.y);
-    context.fillStyle = activeThemeColors.stroke;
+    // Use strokeStyle for drawing and backgroundStyle for erasing for the initial dot
+    context.fillStyle = drawingMode === 'draw' ? activeThemeColors.stroke : activeThemeColors.background;
     context.arc(currentPosition.x, currentPosition.y, penThickness / 2, 0, 2 * Math.PI);
     context.fill();
     context.closePath();
@@ -188,8 +190,9 @@ const Whiteboard: React.FC = () => {
     context.beginPath();
     context.moveTo(lastPosition.x, lastPosition.y);
     context.lineTo(currentPosition.x, currentPosition.y);
-    context.strokeStyle = activeThemeColors.stroke;
-    context.lineWidth = penThickness;
+    // Use strokeStyle for drawing and backgroundStyle for erasing
+    context.strokeStyle = drawingMode === 'draw' ? activeThemeColors.stroke : activeThemeColors.background;
+    context.lineWidth = penThickness; // Eraser uses the same thickness for now
     context.lineCap = 'round';
     context.lineJoin = 'round';
     context.stroke();
@@ -330,25 +333,93 @@ const Whiteboard: React.FC = () => {
           borderRadius: '4px',
         }}
       />
-      <div style={{ margin: '10px 0', display: 'flex', alignItems: 'center', width: '300px' }}>
-        <label htmlFor="penThickness" style={{ marginRight: '10px', color: activeThemeColors.uiText }}>Thickness:</label>
-        <input 
-          type="range" 
-          id="penThickness" 
-          min="1" 
-          max="20" 
-          value={penThickness} 
-          onChange={(e) => setPenThickness(Number(e.target.value))} 
-          style={{ flexGrow: 1, cursor: 'pointer' }}
-        />
-        <span style={{ marginLeft: '10px', color: activeThemeColors.uiText, minWidth: '20px' }}>{penThickness}</span>
+      {/* Toolbar for Thickness, Tool Selection (Pen/Eraser) */}
+      <div style={{
+        margin: '10px 0',
+        padding: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between', // Distributes space between items
+        width: '450px', // Adjust as needed
+        border: `1px solid ${activeThemeColors.borderColor}`,
+        borderRadius: '4px',
+        backgroundColor: activeThemeColors.uiBackground,
+      }}>
+        {/* Thickness Slider */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <label htmlFor="penThickness" style={{ marginRight: '10px', color: activeThemeColors.uiText }}>Thickness:</label>
+          <input
+            type="range"
+            id="penThickness"
+            min="1"
+            max="50" // Increased max thickness for eraser
+            value={penThickness}
+            onChange={(e) => setPenThickness(Number(e.target.value))}
+            style={{ cursor: 'pointer', width: '120px' }}
+          />
+          <span style={{ marginLeft: '10px', color: activeThemeColors.uiText, minWidth: '20px' }}>{penThickness}</span>
+        </div>
+
+        {/* Tool Controls (Pen/Eraser) - Removed Save button */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button
+            onClick={() => setDrawingMode('draw')}
+            title={'Switch to Pen'}
+            style={{
+              background: drawingMode === 'draw' ? `${activeThemeColors.listItemHover}` : 'transparent',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              padding: '5px',
+              marginRight: '10px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <img
+              src={'/pen-icon.svg'}
+              alt={'Pen Tool'}
+              style={{ 
+                width: '24px', 
+                height: '24px', 
+                filter: activeThemeColors.iconFilter,
+                opacity: drawingMode === 'draw' ? 1 : 0.6
+              }}
+            />
+          </button>
+          <button
+            onClick={() => setDrawingMode('erase')}
+            title={'Switch to Eraser'}
+            style={{
+              background: drawingMode === 'erase' ? `${activeThemeColors.listItemHover}` : 'transparent',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              padding: '5px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <img
+              src={'/eraser-icon.svg'}
+              alt={'Eraser Tool'}
+              style={{ 
+                width: '24px', 
+                height: '24px', 
+                filter: activeThemeColors.iconFilter,
+                opacity: drawingMode === 'erase' ? 1 : 0.6
+              }}
+            />
+          </button>
+        </div>
       </div>
+
       <div style={{ position: 'relative', width: `${canvasSize.width}px`, height: `${canvasSize.height}px` }}>
         <canvas
           ref={canvasRef}
           style={{
             border: `1px solid ${activeThemeColors.borderColor}`,
-            cursor: 'url(/pen-icon.svg) 0 24, crosshair',
+            cursor: drawingMode === 'draw' ? `url(/pen-icon.svg) 0 24, auto` : `url(/eraser-icon.svg) 0 24, auto`, // Removed crosshairs
             backgroundColor: activeThemeColors.background,
             borderRadius: '4px',
             width: `${canvasSize.width}px`,
@@ -361,7 +432,7 @@ const Whiteboard: React.FC = () => {
         />
       </div>
       
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: '20px', display: 'flex' }}>
         <button 
           onClick={clearCanvas} 
           style={{ 
@@ -371,9 +442,21 @@ const Whiteboard: React.FC = () => {
             border: 'none', 
             padding: '10px 15px', 
             borderRadius: '4px', 
-            cursor: 'pointer' 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
+          <img 
+            src="/clear-icon.svg" 
+            alt="Clear" 
+            style={{ 
+              width: '16px', 
+              height: '16px', 
+              filter: activeThemeColors.iconFilter === 'none' ? 'brightness(5)' : activeThemeColors.iconFilter 
+            }} 
+          />
           Clear
         </button>
         <button 
@@ -385,9 +468,21 @@ const Whiteboard: React.FC = () => {
             border: 'none', 
             padding: '10px 15px', 
             borderRadius: '4px', 
-            cursor: 'pointer' 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
+          <img 
+            src="/save-icon.svg" 
+            alt="Save" 
+            style={{ 
+              width: '16px', 
+              height: '16px', 
+              filter: activeThemeColors.iconFilter === 'none' ? 'brightness(5)' : activeThemeColors.iconFilter 
+            }} 
+          />
           Save Sketch
         </button>
         <button 
@@ -398,9 +493,21 @@ const Whiteboard: React.FC = () => {
             border: 'none', 
             padding: '10px 15px', 
             borderRadius: '4px', 
-            cursor: 'pointer' 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
+          <img 
+            src="/pdf-icon.svg" 
+            alt="PDF" 
+            style={{ 
+              width: '16px', 
+              height: '16px', 
+              filter: activeThemeColors.iconFilter === 'none' ? 'brightness(5)' : activeThemeColors.iconFilter 
+            }} 
+          />
           Export to PDF
         </button>
       </div>
