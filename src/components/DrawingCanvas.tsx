@@ -1,0 +1,43 @@
+import React from 'react';
+import { WithThemeProps } from '../types';
+
+interface DrawingCanvasProps extends WithThemeProps {
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  canvasSize: { width: number; height: number };
+  drawingMode: 'draw' | 'erase';
+  startDrawing: (event: React.MouseEvent<HTMLCanvasElement>) => void;
+  draw: (event: React.MouseEvent<HTMLCanvasElement>) => void;
+  stopDrawing: () => void;
+}
+
+const DrawingCanvas: React.FC<DrawingCanvasProps> = ({
+  canvasRef,
+  canvasSize,
+  drawingMode,
+  startDrawing,
+  draw,
+  stopDrawing,
+  activeThemeColors
+}) => {
+  return (
+    <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          border: `1px solid ${activeThemeColors.borderColor}`,
+          cursor: drawingMode === 'draw' ? `url(/pen-icon.svg) 0 24, auto` : `url(/eraser-icon.svg) 0 24, auto`,
+          backgroundColor: activeThemeColors.background,
+          borderRadius: '4px',
+          width: `${canvasSize.width}px`,
+          height: `${canvasSize.height}px`,
+        }}
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
+      />
+    </div>
+  );
+};
+
+export default DrawingCanvas;
