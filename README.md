@@ -11,6 +11,8 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 - Loading saved sketches
 - Deleting saved sketches
 - Exporting sketches to PDF
+  
+![dark-whiteboard](https://github.com/user-attachments/assets/f28d3b7d-4e38-467f-bde5-f7d185c375d3)
 
 ## Available Scripts
 
