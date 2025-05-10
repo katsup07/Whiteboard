@@ -50,3 +50,4 @@ Serves the production build locally to preview it before deployment.
 - Vite
 - TypeScript
 - jsPDF (for PDF export)
+- Canvas API
