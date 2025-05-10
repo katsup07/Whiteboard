@@ -1,0 +1,100 @@
+/* Button focus styles for Clear, Save, Export, Load and Delete buttons */
+.action-button {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.action-button:focus {
+  outline: none;
+  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 8px 1px rgba(157, 93, 224, 0.5);
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  border: 1px solid #9D5DE0 !important;
+}
+
+/* Stronger focus style to ensure visibility */
+.action-button:focus-visible {
+  outline: none;
+  border: 2px solid #9D5DE0 !important;
+  box-shadow: 0 0 10px 2px rgba(157, 93, 224, 0.7);
+}
+
+/* Fixed styles for buttons in the saved sketches section */
+.saved-sketch-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  min-width: 150px !important;
+  flex-shrink: 0 !important;
+  margin-left: 10px;
+}
+
+/* Add a special hover effect for the theme toggle button */
+.theme-toggle-button:hover {
+  border: 1px solid #9D5DE0 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Styles for pen and eraser tool buttons */
+.tool-button:hover {
+  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 5px rgba(157, 93, 224, 0.3) !important;
+}
+
+/* Add a special hover effect for the Load and Delete buttons */
+.saved-sketch-buttons .action-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Ensure list items maintain horizontal layout */
+.saved-sketches-list li {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  padding: 10px !important;
+  overflow: hidden !important;
+  border-radius: 4px !important;
+  transition: background-color 0.2s ease-in-out !important;
+}
+
+/* Add hover styling for the entire list item */
+.saved-sketches-list li:hover {
+  background-color: rgba(157, 93, 224, 0.08) !important;
+}
+
+/* Style for the drawing name/timestamp span */
+.saved-sketches-list li span {
+  flex-grow: 1 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-right: 10px !important;
+}
+
+/* Specific styles for Load and Delete buttons */
+.saved-sketch-buttons .action-button {
+  min-width: 70px !important;
+  padding: 8px 12px !important;
+  text-align: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  margin-right: 0 !important; /* Override the default action-button margin */
+  letter-spacing: 0.5px !important;
+  font-weight: 500 !important;
+}

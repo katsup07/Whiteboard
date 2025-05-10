@@ -37,12 +37,12 @@ const themes: Record<Theme, ThemeColors> = {
     stroke: '#000000',
     uiBackground: '#f4f4f4',
     uiText: '#333333',
-    buttonBackground: '#17122db8',
+    buttonBackground: '#007bff',
     buttonText: '#FFFFFF',
     listBackground: '#FFFFFF',
     listItemHover: '#e9ecef',
     borderColor: '#CCCCCC',
-    activeBorderColor: '#7119d0',
+    activeBorderColor: '#4A90E2',
     iconFilter: 'none',
   },
   dark: {
@@ -353,27 +353,26 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         minHeight: '100vh',
         padding: '20px',
         position: 'relative'
-      }}>      <button 
+      }}>
+      <button 
         onClick={toggleTheme}
-        className="theme-toggle-button"
         title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
         style={{
           position: 'absolute',
           top: '20px',
-          right: '20px',          padding: focusedButton === 'themeToggle' ? '6px 10px' : '8px 12px',
+          right: '20px',
+          padding: focusedButton === 'themeToggle' && theme === 'dark' ? '6px 10px' : '8px 12px',
           backgroundColor: activeThemeColors.buttonBackground,
           color: activeThemeColors.buttonText,
-          border: focusedButton === 'themeToggle' 
-                 ? `1px solid ${activeThemeColors.activeBorderColor}` 
-                 : `1px solid ${activeThemeColors.borderColor}`,
+          border: focusedButton === 'themeToggle' && theme === 'dark' ? 
+                 `1px solid ${activeThemeColors.activeBorderColor}` : 
+                 `1px solid ${activeThemeColors.borderColor}`,
           borderRadius: '4px',
           cursor: 'pointer',
           zIndex: 1000,
           outline: 'none',
-          boxShadow: focusedButton === 'themeToggle' 
-                     ? `0 0 8px 1px rgba(157, 93, 224, 0.5)` 
-                     : 'none',
-          transition: 'all 0.2s ease-in-out'
+          boxShadow: focusedButton === 'themeToggle' && theme === 'dark' ? 
+                     `0 0 0 2px ${activeThemeColors.activeBorderColor}` : 'none'
         }}
         onFocus={() => setFocusedButton('themeToggle')}
         onBlur={() => setFocusedButton(null)}
@@ -428,17 +427,15 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         </div>
 
         {/* Tool Controls (Pen/Eraser) - Removed Save button */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>          <button
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button
             onClick={() => setDrawingMode('draw')}
             title={'Switch to Pen'}
             onFocus={() => setFocusedButton('penTool')}
             onBlur={() => setFocusedButton(null)}
-            className="tool-button"
+            className={(drawingMode === 'draw' || focusedButton === 'penTool') && theme === 'dark' ? 'dark-theme-active' : ''}
             style={{
               background: drawingMode === 'draw' ? `${activeThemeColors.listItemHover}` : 'transparent',
-              border: (drawingMode === 'draw' || focusedButton === 'penTool') ? 
-                     `1px solid ${activeThemeColors.activeBorderColor}` : 
-                     'none',
               borderRadius: '4px',
               cursor: 'pointer',
               padding: '5px',
@@ -446,9 +443,6 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
               display: 'flex',
               alignItems: 'center',
               outline: 'none',
-              boxShadow: (drawingMode === 'draw' || focusedButton === 'penTool') ?
-                         `0 0 8px 1px rgba(157, 93, 224, 0.3)` :
-                         'none',
               transition: 'all 0.2s ease-in-out'
             }}
           >
@@ -462,15 +456,15 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
                 opacity: drawingMode === 'draw' ? 1 : 0.6
               }}
             />
-          </button>          <button
+          </button>
+          <button
             onClick={() => setDrawingMode('erase')}
             title={'Switch to Eraser'}
             onFocus={() => setFocusedButton('eraserTool')}
             onBlur={() => setFocusedButton(null)}
-            className="tool-button"
             style={{
               background: drawingMode === 'erase' ? `${activeThemeColors.listItemHover}` : 'transparent',
-              border: (drawingMode === 'erase' || focusedButton === 'eraserTool') 
+              border: (drawingMode === 'erase' || focusedButton === 'eraserTool') && theme === 'dark' 
                 ? `1px solid ${activeThemeColors.activeBorderColor}` 
                 : 'none',
               borderRadius: '4px',
@@ -479,8 +473,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
               display: 'flex',
               alignItems: 'center',
               outline: 'none',
-              boxShadow: (drawingMode === 'erase' || focusedButton === 'eraserTool')
-                ? `0 0 8px 1px rgba(157, 93, 224, 0.3)`
+              boxShadow: (drawingMode === 'erase' || focusedButton === 'eraserTool') && theme === 'dark'
+                ? `0 0 8px 1px ${activeThemeColors.activeBorderColor}`
                 : 'none',
               transition: 'all 0.2s ease-in-out'
             }}
@@ -575,15 +569,15 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
       </div>
       
       <h3 style={{ marginTop: '25px' }}>Saved Sketches</h3>
-      {drawings.length === 0 && <p>No sketches saved yet.</p>}      <ul className="saved-sketches-list" style={{
+      {drawings.length === 0 && <p>No sketches saved yet.</p>}
+      <ul className="saved-sketches-list" style={{
         listStyle: 'none',
         padding: '10px',
         maxHeight: '200px',
         overflowY: 'auto',
         border: `1px solid ${activeThemeColors.borderColor}`,
         backgroundColor: activeThemeColors.listBackground,
-        width: '100%',
-        maxWidth: '800px',
+        width: '800px',
         borderRadius: '4px',
       }}>
         {drawings.sort((a,b) => b.timestamp - a.timestamp).map((drawing) => (
@@ -604,12 +598,13 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
           >
             <span onClick={() => loadDrawing(drawing.dataUrl)} style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {drawing.name} - {new Date(drawing.timestamp).toLocaleDateString()} - {new Date(drawing.timestamp).toLocaleTimeString()}
-            </span>            <div className="saved-sketch-buttons" style={{ 
+            </span>
+            <div className="saved-sketch-buttons" style={{ 
               display: 'flex', 
               flexDirection: 'row', 
               gap: '10px', 
               width: 'auto',
-              minWidth: '150px',
+              minWidth: '140px',
               whiteSpace: 'nowrap',
               flexWrap: 'nowrap'
             }}>

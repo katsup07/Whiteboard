@@ -5,6 +5,48 @@
   text-align: center;
 }
 
+/* Add button hover and focus styles */
+button {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Improved button focus styles for all buttons */
+button:focus {
+  outline: none;
+  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 4px 1px rgba(157, 93, 224, 0.5);
+}
+
+button:focus-visible {
+  outline: none;
+  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 6px 2px rgba(157, 93, 224, 0.7);
+}
+
+/* Custom button glow effect for dark theme */
+.dark-theme-active {
+  box-shadow: 0 0 8px 2px #9D5DE0 !important;
+  border: 1px solid #9D5DE0 !important;
+}
+
+/* Button focus styles for all buttons */
+button:focus {
+  outline: none;
+  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 4px 1px #9D5DE0;
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 6px 1px #9D5DE0;
+  border-color: #9D5DE0;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -16,6 +58,14 @@
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.whiteboard-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5em;
+  width: 10rem;
 }
 
 @keyframes logo-spin {
