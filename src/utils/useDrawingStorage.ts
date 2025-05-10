@@ -23,12 +23,7 @@ export const useDrawingStorage = (
     if (savedDrawings) {
       setDrawings(JSON.parse(savedDrawings));
     }
-  }, []);
-
-  // Save drawings to localStorage when they change
-  useEffect(() => {
-    localStorage.setItem('whiteboardDrawings', JSON.stringify(drawings));
-  }, [drawings]);
+  }, []);  // Save drawings helper function - removed
 
   // Save drawing function
   const saveDrawing = useCallback(() => {
@@ -52,8 +47,11 @@ export const useDrawingStorage = (
       name: currentDrawingName || 'Untitled Sketch',
       dataUrl,
       timestamp: Date.now(),
-    };
-    setDrawings(prevDrawings => [...prevDrawings, newDrawing]);
+    };    setDrawings(prevDrawings => {
+      const updatedDrawings = [...prevDrawings, newDrawing];
+      localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
+      return updatedDrawings;
+    });
     alert('Sketch saved!');
   }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName]);
 
@@ -74,10 +72,13 @@ export const useDrawingStorage = (
     };
     img.src = drawingDataUrl;
   }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas]);
-
   // Delete drawing function
   const deleteDrawing = useCallback((drawingId: string) => {
-    setDrawings(prevDrawings => prevDrawings.filter(d => d.id !== drawingId));
+    setDrawings(prevDrawings => {
+      const updatedDrawings = prevDrawings.filter(d => d.id !== drawingId);
+      localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
+      return updatedDrawings;
+    });
   }, []);
 
   // Export to PDF function
