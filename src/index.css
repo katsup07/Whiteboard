@@ -3,9 +3,16 @@
   line-height: 1.5;
   font-weight: 400;
 
+  /* Define color variables */
+  --background-color-dark: #242424;
+  --text-color-dark: rgba(255, 255, 255, 0.87);
+  --background-color-light: rgb(244, 244, 244);
+  --text-color-light: #213547;
+
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Set default to dark mode colors */
+  color: var(--text-color-dark);
+  background-color: var(--background-color-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,6 +35,19 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* Use CSS variables to match current theme */
+  background-color: var(--background-color-dark); /* Default to dark */
+}
+
+/* Apply theme colors based on data-theme attribute */
+body[data-theme="dark"] {
+  color: var(--text-color-dark);
+  background-color: var(--background-color-dark);
+}
+
+body[data-theme="light"] {
+  color: var(--text-color-light);
+  background-color: var(--background-color-light);
 }
 
 h1 {
@@ -55,9 +75,10 @@ button:focus-visible {
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+  /* Only apply these styles if no manual theme is set */
+  body:not([data-theme]) {
+    color: var(--text-color-light);
+    background-color: var(--background-color-light);
   }
   a:hover {
     color: #747bff;

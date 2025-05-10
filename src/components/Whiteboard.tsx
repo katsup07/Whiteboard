@@ -72,7 +72,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
   const [drawings, setDrawings] = useState<Drawing[]>([]);
   const [currentDrawingName, setCurrentDrawingName] = useState<string>('My Sketch');
   const [penThickness, setPenThickness] = useState<number>(2);
-  const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 }); // Logical size
+  const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth - 40, height: 600 }); // Initialize canvas width to full screen width minus padding
   const [drawingMode, setDrawingMode] = useState<'draw' | 'erase'>('draw'); // New state for draw/erase mode
   const [focusedButton, setFocusedButton] = useState<string | null>(null); // Track which button has focus
 
@@ -128,31 +128,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     return baseStyle;
   };
 
-  // Effect to setup canvas scaling (runs once or if logical dimensions were to change)
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    const ratio = window.devicePixelRatio || 1;
-    const logicalWidth = 800; // Assuming fixed logical size for now
-    const logicalHeight = 600;
-
-    canvas.width = logicalWidth * ratio;
-    canvas.height = logicalHeight * ratio;
-
-    canvas.style.width = `${logicalWidth}px`;
-    canvas.style.height = `${logicalHeight}px`;
-
-    // Use setTransform to apply scale. This is idempotent.
-    // It replaces the current transform, so it won't compound.
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-    setCanvasSize({ width: logicalWidth, height: logicalHeight });
-    // Initial clear is handled by the theme/initialization effect below
-  }, [canvasRef]); // Dependencies: canvasRef. If logicalWidth/Height were state/props, add them.
-
+  // Define clearCanvas before the useEffect that uses it as a dependency
   const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     // Ensure canvasSize is initialized before using its properties
@@ -168,7 +144,41 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     // Re-apply stroke style for subsequent drawing operations
     context.strokeStyle = activeThemeColors.stroke;
   }, [activeThemeColors, canvasRef, canvasSize.width, canvasSize.height]); // Added canvasSize dependencies
-  
+
+  // Effect to setup canvas scaling and handle resize
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    const handleResize = () => {
+      // Adjust width based on window, subtracting padding (20px on each side from the main container)
+      const newWidth = window.innerWidth - 40;
+      // Keep height fixed or make it responsive, e.g., window.innerHeight * 0.6
+      const newHeight = 600; 
+
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = newWidth * ratio;
+      canvas.height = newHeight * ratio;
+      canvas.style.width = `${newWidth}px`;
+      canvas.style.height = `${newHeight}px`;
+
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      setCanvasSize({ width: newWidth, height: newHeight });
+      // It's important to clear the canvas after resize to apply new dimensions and background
+      // and redraw content if necessary.
+      clearCanvas(); 
+    };
+
+    handleResize(); // Call on initial mount to set initial size
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [canvasRef, clearCanvas]); // clearCanvas is a dependency
+
   useEffect(() => {
     const savedDrawings = localStorage.getItem('whiteboardDrawings');
     if (savedDrawings) {
@@ -499,7 +509,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         </div>
       </div>
 
-      <div style={{ position: 'relative', width: `${canvasSize.width}px`, height: `${canvasSize.height}px` }}>
+      {/* Container for the canvas, this will take full width */}
+      <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <canvas
           ref={canvasRef}
           style={{
@@ -507,8 +518,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
             cursor: drawingMode === 'draw' ? `url(/pen-icon.svg) 0 24, auto` : `url(/eraser-icon.svg) 0 24, auto`, // Removed crosshairs
             backgroundColor: activeThemeColors.background,
             borderRadius: '4px',
-            width: `${canvasSize.width}px`,
-            height: `${canvasSize.height}px`,
+            width: `${canvasSize.width}px`, // Controlled by state
+            height: `${canvasSize.height}px`, // Controlled by state
           }}
           onMouseDown={startDrawing}
           onMouseMove={draw}
@@ -582,8 +593,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         overflowY: 'auto',
         border: `1px solid ${activeThemeColors.borderColor}`,
         backgroundColor: activeThemeColors.listBackground,
-        width: '100%',
-        maxWidth: '800px',
+        width: '100%', // List takes full width of its centered parent block
+        maxWidth: '800px', // But capped at 800px
         borderRadius: '4px',
       }}>
         {drawings.sort((a,b) => b.timestamp - a.timestamp).map((drawing) => (
