@@ -4,13 +4,17 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 
 ## Features
 
-- Drawing on a canvas
+- Drawing on a canvas with adjustable pen thickness
+- Multiple drawing modes: pen and eraser
+- Theme support: Light and Dark modes
+- Accessibility features with keyboard navigation and focus management
 - Clearing the canvas
 - Naming sketches
 - Saving sketches to local storage
 - Loading saved sketches
 - Deleting saved sketches
 - Exporting sketches to PDF
+- Automatic saving of user preferences (pen thickness, theme)
 
 ## Available Scripts
 
