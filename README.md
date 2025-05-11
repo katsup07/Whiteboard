@@ -1,4 +1,4 @@
-# React Whiteboard Application
+# Whiteboard Application
 
 This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to sketch ideas on a canvas, save them in the browser's local storage, and export them as PDF files.
 
