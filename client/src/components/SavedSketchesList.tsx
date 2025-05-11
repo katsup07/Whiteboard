@@ -4,7 +4,7 @@ import { getButtonStyle } from '../utils/themeUtils';
 
 interface SavedSketchesListProps extends WithThemeProps, WithFocusProps {
   drawings: Drawing[];
-  loadDrawing: (dataUrl: string) => void;
+  loadDrawing: (id: string, dataUrl: string) => void;
   deleteDrawing: (id: string) => void;
   updateDrawing: (id: string) => void;
 }
@@ -52,7 +52,7 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
             <span 
-              onClick={() => loadDrawing(drawing.dataUrl)} 
+              onClick={() => loadDrawing(drawing.id, drawing.dataUrl)} 
               style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}
             >
               {drawing.name} - {new Date(drawing.timestamp).toLocaleDateString()} - {new Date(drawing.timestamp).toLocaleTimeString()}

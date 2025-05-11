@@ -25,15 +25,15 @@ export const useDrawingStorage = (
         const savedDrawings = await apiClient.getSketches();
         if(!savedDrawings || savedDrawings.length === 0)
           return;
-     
+  
         setDrawings(savedDrawings);
       } catch (error) {
         console.error('Error fetching drawings:', error);
       }
     };
     fetchDrawings();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  }, [apiClient]);
 
   const prepareNewDrawing = useCallback(() => {
     const canvas = canvasRef.current;
@@ -81,8 +81,16 @@ export const useDrawingStorage = (
 
   // Update existing drawing with new drawing data
   const updateDrawing = useCallback((drawingId: string) => {
+    // Find the existing drawing to get its ID
+    const existingDrawing = drawings.find(d => d.id === drawingId);
+    if (!existingDrawing) return;
+    
+    // Create new drawing but preserve the original ID
     const newDrawing = prepareNewDrawing();
     if (!newDrawing) return;
+    
+    // Keep the original ID instead of generating a new one
+    newDrawing.id = drawingId;
 
     const previousDrawings = [...drawings];
 
@@ -97,31 +105,37 @@ export const useDrawingStorage = (
           console.error('Error updating sketch in database:', error);
           setDrawings(previousDrawings);
           alert('Error updating sketch. Please try again.');
-        });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+        }); 
+  }, [drawings, prepareNewDrawing, apiClient]);
   // Load drawing function
-  const loadDrawing = useCallback((drawingDataUrl: string) => {
+  const loadDrawing = useCallback((drawingId: string, drawingDataUrl: string) => {
+    // Find the drawing by ID and get its name
+    const drawing = drawings.find(d => d.id === drawingId);
+    if (drawing) {
+      setCurrentDrawingName(drawing.name);
+    } else {
+      setCurrentDrawingName('New Sketch');
+    }
+
+    // Clear the canvas before loading a new drawing
+    clearCanvas();
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     
     const context = canvas.getContext('2d');
     if (!context) return;
 
-    clearCanvas();
-
     const img = new Image();
     img.onload = () => {
       context.drawImage(img, 0, 0, canvasSize.width, canvasSize.height);
-      context.strokeStyle = activeThemeColors.stroke;
-    };
+      context.strokeStyle = activeThemeColors.stroke;    };
     img.onerror = () => {
       console.error('Error loading image from data URL');
       alert('Error loading sketch. The image data may be corrupted.');
     };
     img.src = drawingDataUrl;
-  }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas]);
+  }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas, drawings]);
   // Delete drawing function
   const deleteDrawing = useCallback((drawingId: string) => {
     setDrawings(prevDrawings => {
@@ -137,8 +151,7 @@ export const useDrawingStorage = (
         alert('Error deleting sketch. Please try again.');
         setDrawings(prevDrawings => [...prevDrawings, drawings.find(d => d.id === drawingId)!]);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiClient, drawings]);
 
   // Export to PDF function
   const exportToPdf = useCallback(() => {
