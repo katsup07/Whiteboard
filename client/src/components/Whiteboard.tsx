@@ -42,6 +42,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     setCurrentDrawingName,
     saveDrawing,
     loadDrawing,
+    updateDrawing,
     deleteDrawing,
     exportToPdf
   } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, activeThemeColors);
@@ -116,6 +117,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
       <SavedSketchesList 
         drawings={drawings}
         loadDrawing={loadDrawing}
+        updateDrawing={updateDrawing}
         deleteDrawing={deleteDrawing}
         theme={theme}
         activeThemeColors={activeThemeColors}

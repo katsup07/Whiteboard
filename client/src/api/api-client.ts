@@ -41,4 +41,36 @@ export class ApiClient {
     return data;
   }
 
+  async deleteSketch(id: string): Promise<void> {
+    const response = await fetch(`/sketches/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok)
+      throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    console.log('Deleted sketch:', data);
+    return data;
+  }
+
+  async updateSketch(id: string, sketch: Sketch): Promise<void> {
+    const response = await fetch(`/sketches/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sketch),
+    });
+
+    console.log('response: ', response);
+    console.log('response.ok: ', response.ok);
+    if (!response.ok)
+      throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    console.log('Updated sketch:', data);
+    return data;
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { SketchesService } from 'src/services/sketches-service/sketches.service';
 import { Sketch } from 'types/sketches';
 
@@ -14,6 +14,11 @@ export class SketchesController {
   @Post()
   async saveSketch(@Body() sketchData: Sketch) {
     return this.sketchesService.saveSketch(sketchData);
+  }
+
+  @Put(':id')
+  async updateSketch(@Param('id') sketchId: string, @Body() sketchData: Sketch) {
+    return this.sketchesService.updateSketch(sketchId, sketchData);
   }
 
   @Delete(':id')

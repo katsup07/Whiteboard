@@ -35,8 +35,7 @@ export const useDrawingStorage = (
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Save drawing function
-  const saveDrawing = useCallback(() => {
+  const prepareNewDrawing = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -57,7 +56,17 @@ export const useDrawingStorage = (
       name: currentDrawingName || 'Untitled Sketch',
       dataUrl,
       timestamp: Date.now(),
-    };    setDrawings(prevDrawings => [...prevDrawings, newDrawing]);
+    };    
+
+    return newDrawing;
+  }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName]);
+
+  // Save drawing function
+  const saveDrawing = useCallback(() => {
+    const newDrawing = prepareNewDrawing();
+    if (!newDrawing) return;
+
+    setDrawings(prevDrawings => [...prevDrawings, newDrawing]);
 
     apiClient.saveSketch(newDrawing)
         .then(() => {
@@ -68,8 +77,30 @@ export const useDrawingStorage = (
           setDrawings(prevDrawings => prevDrawings.filter(d => d.id !== newDrawing.id));
           alert('Error saving sketch. Please try again.');
         });
-  }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName, apiClient]);
-  
+  }, [prepareNewDrawing, apiClient]);
+
+  // Update existing drawing with new drawing data
+  const updateDrawing = useCallback((drawingId: string) => {
+    const newDrawing = prepareNewDrawing();
+    if (!newDrawing) return;
+
+    const previousDrawings = [...drawings];
+
+    setDrawings(prevDrawings => {
+      const updatedDrawings = prevDrawings.map(d => d.id === drawingId ? newDrawing : d);
+     
+      return updatedDrawings;
+    });
+
+    apiClient.updateSketch(drawingId, newDrawing)
+        .catch(error => {
+          console.error('Error updating sketch in database:', error);
+          setDrawings(previousDrawings);
+          alert('Error updating sketch. Please try again.');
+        });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Load drawing function
   const loadDrawing = useCallback((drawingDataUrl: string) => {
     const canvas = canvasRef.current;
@@ -95,9 +126,18 @@ export const useDrawingStorage = (
   const deleteDrawing = useCallback((drawingId: string) => {
     setDrawings(prevDrawings => {
       const updatedDrawings = prevDrawings.filter(d => d.id !== drawingId);
-      // localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
+    
       return updatedDrawings;
     });
+
+    if(!window.confirm('Are you sure you want to delete this sketch?')) return;
+    apiClient.deleteSketch(drawingId)
+      .catch(error => {
+        console.error('Error deleting sketch from database:', error);
+        alert('Error deleting sketch. Please try again.');
+        setDrawings(prevDrawings => [...prevDrawings, drawings.find(d => d.id === drawingId)!]);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Export to PDF function
@@ -138,6 +178,7 @@ export const useDrawingStorage = (
     currentDrawingName,
     setCurrentDrawingName,
     saveDrawing,
+    updateDrawing,
     loadDrawing,
     deleteDrawing,
     exportToPdf

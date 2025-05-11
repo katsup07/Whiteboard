@@ -6,18 +6,19 @@ interface SavedSketchesListProps extends WithThemeProps, WithFocusProps {
   drawings: Drawing[];
   loadDrawing: (dataUrl: string) => void;
   deleteDrawing: (id: string) => void;
+  updateDrawing: (id: string) => void;
 }
 
 const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
   drawings,
   loadDrawing,
+  updateDrawing,
   deleteDrawing,
   theme,
   activeThemeColors,
   focusedButton,
   setFocusedButton
 }) => {
-  console.log('drawings: ', drawings)
   return (
     <>
       <h3 style={{ marginTop: '25px' }}>Saved Sketches</h3>
@@ -34,7 +35,6 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
         borderRadius: '4px',
       }}>
         {drawings.sort((a, b) => b.timestamp - a.timestamp).map((drawing) => { 
-          console.log('drawing: ', drawing);
           return (
           <li 
             key={drawing.id} 
@@ -59,13 +59,13 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
             </span>
             <div className="saved-sketch-buttons">
               <button 
-                onClick={() => loadDrawing(drawing.dataUrl)} 
+                onClick={() => updateDrawing(drawing.id)} 
                 style={getButtonStyle(`load-${drawing.id}`, focusedButton, theme, activeThemeColors)}
                 onFocus={() => setFocusedButton(`load-${drawing.id}`)}
                 onBlur={() => setFocusedButton(null)}
                 className="action-button"
               >
-                Load
+                Update
               </button>
               <button 
                 onClick={() => deleteDrawing(drawing.id)} 
