@@ -17,6 +17,7 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
   focusedButton,
   setFocusedButton
 }) => {
+  console.log('drawings: ', drawings)
   return (
     <>
       <h3 style={{ marginTop: '25px' }}>Saved Sketches</h3>
@@ -32,7 +33,9 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
         maxWidth: '800px',
         borderRadius: '4px',
       }}>
-        {drawings.sort((a, b) => b.timestamp - a.timestamp).map((drawing) => (
+        {drawings.sort((a, b) => b.timestamp - a.timestamp).map((drawing) => { 
+          console.log('drawing: ', drawing);
+          return (
           <li 
             key={drawing.id} 
             style={{
@@ -75,7 +78,7 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
               </button>
             </div>
           </li>
-        ))}
+        )})}
       </ul>
     </>
   );

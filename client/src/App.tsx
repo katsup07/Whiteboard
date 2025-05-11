@@ -3,7 +3,7 @@ import Whiteboard from './components/Whiteboard';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   // Set the theme on the body element as data attribute
   useEffect(() => {

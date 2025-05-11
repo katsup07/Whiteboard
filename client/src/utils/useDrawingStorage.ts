@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Drawing, ThemeColors } from '../types';
+import { ApiClient } from '../api/api-client';
 
 /**
  * Custom hook for managing drawing storage operations
@@ -16,14 +17,23 @@ export const useDrawingStorage = (
 ) => {
   const [drawings, setDrawings] = useState<Drawing[]>([]);
   const [currentDrawingName, setCurrentDrawingName] = useState<string>('My Sketch');
-
-  // Load initial drawings from localStorage
+  const apiClient = ApiClient.getInstance();
+  // Load drawings from db
   useEffect(() => {
-    const savedDrawings = localStorage.getItem('whiteboardDrawings');
-    if (savedDrawings) {
-      setDrawings(JSON.parse(savedDrawings));
-    }
-  }, []);  // Save drawings helper function - removed
+    const fetchDrawings = async () => {
+      try {
+        const savedDrawings = await apiClient.getSketches();
+        if(!savedDrawings || savedDrawings.length === 0)
+          return;
+     
+        setDrawings(savedDrawings);
+      } catch (error) {
+        console.error('Error fetching drawings:', error);
+      }
+    };
+    fetchDrawings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Save drawing function
   const saveDrawing = useCallback(() => {
@@ -47,14 +57,19 @@ export const useDrawingStorage = (
       name: currentDrawingName || 'Untitled Sketch',
       dataUrl,
       timestamp: Date.now(),
-    };    setDrawings(prevDrawings => {
-      const updatedDrawings = [...prevDrawings, newDrawing];
-      localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
-      return updatedDrawings;
-    });
-    alert('Sketch saved!');
-  }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName]);
+    };    setDrawings(prevDrawings => [...prevDrawings, newDrawing]);
 
+    apiClient.saveSketch(newDrawing)
+        .then(() => {
+          alert('Sketch saved!');
+        })
+        .catch(error => {
+          console.error('Error saving sketch to database:', error);
+          setDrawings(prevDrawings => prevDrawings.filter(d => d.id !== newDrawing.id));
+          alert('Error saving sketch. Please try again.');
+        });
+  }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName, apiClient]);
+  
   // Load drawing function
   const loadDrawing = useCallback((drawingDataUrl: string) => {
     const canvas = canvasRef.current;
@@ -70,13 +85,17 @@ export const useDrawingStorage = (
       context.drawImage(img, 0, 0, canvasSize.width, canvasSize.height);
       context.strokeStyle = activeThemeColors.stroke;
     };
+    img.onerror = () => {
+      console.error('Error loading image from data URL');
+      alert('Error loading sketch. The image data may be corrupted.');
+    };
     img.src = drawingDataUrl;
   }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas]);
   // Delete drawing function
   const deleteDrawing = useCallback((drawingId: string) => {
     setDrawings(prevDrawings => {
       const updatedDrawings = prevDrawings.filter(d => d.id !== drawingId);
-      localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
+      // localStorage.setItem('whiteboardDrawings', JSON.stringify(updatedDrawings));
       return updatedDrawings;
     });
   }, []);
