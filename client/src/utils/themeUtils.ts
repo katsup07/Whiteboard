@@ -7,7 +7,7 @@ export const themes: Record<Theme, ThemeColors> = {
     stroke: '#000000',
     uiBackground: '#f4f4f4',
     uiText: '#333333',
-    buttonBackground: '#17122db8',
+    buttonBackground: 'rgba(97, 0, 201, 0.773)',
     buttonText: '#FFFFFF',
     listBackground: '#FFFFFF',
     listItemHover: '#e9ecef',
@@ -25,7 +25,7 @@ export const themes: Record<Theme, ThemeColors> = {
     listBackground: '#2C2C2C',
     listItemHover: '#383838',
     borderColor: '#4A4A4A',
-    activeBorderColor: '#7119d0', // Purple color for active/focused state
+    activeBorderColor: 'rgba(97, 0, 201, 0.773)', // Purple color for active/focused state
     iconFilter: 'invert(100%) brightness(1.5)',
   },
 };

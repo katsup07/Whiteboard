@@ -19,32 +19,32 @@ button:hover {
 button:focus {
   outline: none;
   border: 1px solid #9D5DE0 !important;
-  box-shadow: 0 0 4px 1px rgba(157, 93, 224, 0.5);
+  box-shadow: 0 0 4px 1px rgba(97, 0, 201, 0.973);
 }
 
 button:focus-visible {
   outline: none;
   border: 1px solid #9D5DE0 !important;
-  box-shadow: 0 0 6px 2px rgba(157, 93, 224, 0.7);
+  box-shadow: 0 0 6px 2px rgba(97, 0, 201, 0.973);
 }
 
 /* Custom button glow effect for dark theme */
 .dark-theme-active {
-  box-shadow: 0 0 8px 2px #9D5DE0 !important;
-  border: 1px solid #9D5DE0 !important;
+  box-shadow: 0 0 8px 2px rgba(97, 0, 201, 0.973) !important;
+  border: 1px solid rgba(97, 0, 201, 0.973)!important;
 }
 
 /* Button focus styles for all buttons */
 button:focus {
   outline: none;
-  border: 1px solid #9D5DE0 !important;
-  box-shadow: 0 0 4px 1px #9D5DE0;
+  border: 1px solid rgba(97, 0, 201, 0.973) !important;
+  box-shadow: 0 0 4px 1px rgba(97, 0, 201, 0.973);
 }
 
 button:focus-visible {
   outline: none;
-  box-shadow: 0 0 6px 1px #9D5DE0;
-  border-color: #9D5DE0;
+  box-shadow: 0 0 6px 1px rgba(97, 0, 201, 0.973);
+  border-color: rgba(97, 0, 201, 0.973);
 }
 
 .logo {

@@ -13,9 +13,7 @@ export class DrawingsService {
       console.log('Fetched drawings:', data);
 
       return data ?? [];
-    }
-
-    async saveDrawing(drawing: Drawing): Promise<Drawing> {
+    }    async saveDrawing(drawing: Drawing): Promise<Drawing> {
       const response = await fetch(this.drawingsEndpoint, {
         method: 'POST',
         headers: {
@@ -24,8 +22,12 @@ export class DrawingsService {
         body: JSON.stringify(drawing),
       });
   
-      if (!response.ok) 
-        throw new Error('Network response was not ok');
+      if (!response.ok) {
+        if (response.status === 413)
+          throw new Error('request entity too large');
+        
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
       
       const data = await response.json();
       console.log('Saved drawing:', data);
@@ -41,8 +43,12 @@ export class DrawingsService {
         body: JSON.stringify(drawing),
       });
   
-      if (!response.ok) 
-        throw new Error('Network response was not ok');
+      if (!response.ok) {
+        if (response.status === 413)
+          throw new Error('request entity too large');
+    
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
       
       const data = await response.json();
       console.log('Updated drawing:', data);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './Whiteboard.css';
 
 // Import components
@@ -12,6 +13,7 @@ import SavedDrawingsList from './SavedDrawingsList';
 import { useCanvas, useDrawingStorage } from '../utils';
 import { themes } from '../utils/themeUtils';
 import { Theme } from '../types';
+import { showConfirm } from '../utils/toastUtils.tsx';
 
 interface WhiteboardProps {
   theme: Theme;
@@ -45,11 +47,17 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     updateDrawing,
     deleteDrawing,
     exportToPdf
-  } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, activeThemeColors);
+  } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, activeThemeColors, theme);
+
   // Handle theme toggle with confirmation
-  const toggleTheme = () => {
-    confirm('Switching themes after drawing will discard your current drawing. Are you sure you want to switch themes?') &&
-    onThemeChange();
+  const toggleTheme = async () => {
+    const confirmed = await showConfirm(
+      'Switching themes after drawing will discard your current drawing. Are you sure you want to switch themes?', 
+      theme
+    );
+    if (confirmed) {
+      onThemeChange();
+    }
   };
   
   return (
