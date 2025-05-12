@@ -9,7 +9,7 @@ interface SavedDrawingsListProps extends WithThemeProps, WithFocusProps {
   updateDrawing: (id: string) => void;
 }
 
-const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
+const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
   drawings,
   loadDrawing,
   updateDrawing,
@@ -21,9 +21,9 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
 }) => {
   return (
     <>
-      <h3 style={{ marginTop: '25px' }}>Saved Sketches</h3>
-      {drawings.length === 0 && <p>No sketches saved yet.</p>}
-      <ul className="saved-sketches-list" style={{
+      <h3 style={{ marginTop: '25px' }}>Saved Drawings</h3>
+      {drawings.length === 0 && <p>No drawings saved yet.</p>}
+      <ul className="saved-drawings-list" style={{
         listStyle: 'none',
         padding: '10px',
         maxHeight: '200px',
@@ -57,7 +57,7 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
             >
               {drawing.name} - {new Date(drawing.timestamp).toLocaleDateString()} - {new Date(drawing.timestamp).toLocaleTimeString()}
             </span>
-            <div className="saved-sketch-buttons">
+            <div className="saved-drawing-buttons">
               <button 
                 onClick={() => updateDrawing(drawing.id)} 
                 style={getButtonStyle(`load-${drawing.id}`, focusedButton, theme, activeThemeColors)}
@@ -84,4 +84,4 @@ const SavedSketchesList: React.FC<SavedSketchesListProps> = ({
   );
 };
 
-export default SavedSketchesList;
+export default SavedDrawingsList;

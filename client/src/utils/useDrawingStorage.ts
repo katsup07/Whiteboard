@@ -14,15 +14,14 @@ export const useDrawingStorage = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   canvasSize: { width: number, height: number },
   activeThemeColors: ThemeColors
-) => {
-  const [drawings, setDrawings] = useState<Drawing[]>([]);
-  const [currentDrawingName, setCurrentDrawingName] = useState<string>('My Sketch');
+) => {  const [drawings, setDrawings] = useState<Drawing[]>([]);
+  const [currentDrawingName, setCurrentDrawingName] = useState<string>('My Drawing');
   const apiClient = ApiClient.getInstance();
   // Load drawings from db
   useEffect(() => {
     const fetchDrawings = async () => {
       try {
-        const savedDrawings = await apiClient.getSketches();
+        const savedDrawings = await apiClient.getDrawings();
         if(!savedDrawings || savedDrawings.length === 0)
           return;
   
@@ -53,7 +52,7 @@ export const useDrawingStorage = (
     const dataUrl = tempCanvas.toDataURL('image/png');
     const newDrawing: Drawing = {
       id: new Date().toISOString(),
-      name: currentDrawingName || 'Untitled Sketch',
+      name: currentDrawingName || 'Untitled Drawing',
       dataUrl,
       timestamp: Date.now(),
     };    
@@ -68,14 +67,14 @@ export const useDrawingStorage = (
 
     setDrawings(prevDrawings => [...prevDrawings, newDrawing]);
 
-    apiClient.saveSketch(newDrawing)
+    apiClient.saveDrawing(newDrawing)
         .then(() => {
-          alert('Sketch saved!');
+          alert('Drawing saved!');
         })
         .catch(error => {
-          console.error('Error saving sketch to database:', error);
+          console.error('Error saving drawing to database:', error);
           setDrawings(prevDrawings => prevDrawings.filter(d => d.id !== newDrawing.id));
-          alert('Error saving sketch. Please try again.');
+          alert('Error saving drawing. Please try again.');
         });
   }, [prepareNewDrawing, apiClient]);
 
@@ -100,12 +99,12 @@ export const useDrawingStorage = (
       return updatedDrawings;
     });
 
-    apiClient.updateSketch(drawingId, newDrawing)
+    apiClient.updateDrawing(drawingId, newDrawing)
         .catch(error => {
-          console.error('Error updating sketch in database:', error);
+          console.error('Error updating drawing in database:', error);
           setDrawings(previousDrawings);
-          alert('Error updating sketch. Please try again.');
-        }); 
+          alert('Error updating drawing. Please try again.');
+        });
   }, [drawings, prepareNewDrawing, apiClient]);
   // Load drawing function
   const loadDrawing = useCallback((drawingId: string, drawingDataUrl: string) => {
@@ -114,7 +113,7 @@ export const useDrawingStorage = (
     if (drawing) {
       setCurrentDrawingName(drawing.name);
     } else {
-      setCurrentDrawingName('New Sketch');
+      setCurrentDrawingName('New Drawing');
     }
 
     // Clear the canvas before loading a new drawing
@@ -132,7 +131,7 @@ export const useDrawingStorage = (
       context.strokeStyle = activeThemeColors.stroke;    };
     img.onerror = () => {
       console.error('Error loading image from data URL');
-      alert('Error loading sketch. The image data may be corrupted.');
+      alert('Error loading drawing. The image data may be corrupted.');
     };
     img.src = drawingDataUrl;
   }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas, drawings]);
@@ -144,11 +143,11 @@ export const useDrawingStorage = (
       return updatedDrawings;
     });
 
-    if(!window.confirm('Are you sure you want to delete this sketch?')) return;
-    apiClient.deleteSketch(drawingId)
+    if(!window.confirm('Are you sure you want to delete this drawing?')) return;
+    apiClient.deleteDrawing(drawingId)
       .catch(error => {
-        console.error('Error deleting sketch from database:', error);
-        alert('Error deleting sketch. Please try again.');
+        console.error('Error deleting drawing from database:', error);
+        alert('Error deleting drawing. Please try again.');
         setDrawings(prevDrawings => [...prevDrawings, drawings.find(d => d.id === drawingId)!]);
       });
   }, [apiClient, drawings]);
@@ -182,7 +181,7 @@ export const useDrawingStorage = (
       });
       
       pdf.addImage(imgData, 'PNG', 0, 0, tempExportCanvas.width, tempExportCanvas.height);
-      pdf.save(`${currentDrawingName.replace(/\s+/g, '_') || 'sketch'}.pdf`);
+      pdf.save(`${currentDrawingName.replace(/\s+/g, '_') || 'drawing'}.pdf`);
     });
   }, [activeThemeColors.background, canvasRef, canvasSize, currentDrawingName]);
 

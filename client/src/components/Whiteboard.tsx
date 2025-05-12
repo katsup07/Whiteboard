@@ -6,7 +6,7 @@ import Header from './Header';
 import Toolbar from './Toolbar';
 import DrawingCanvas from './DrawingCanvas';
 import ActionButtons from './ActionButtons';
-import SavedSketchesList from './SavedSketchesList';
+import SavedDrawingsList from './SavedDrawingsList';
 
 // Import custom hooks and utils
 import { useCanvas, useDrawingStorage } from '../utils';
@@ -110,11 +110,10 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         theme={theme}
         activeThemeColors={activeThemeColors}
         focusedButton={focusedButton}
-        setFocusedButton={setFocusedButton}
-      />
+        setFocusedButton={setFocusedButton}      />
       
-      {/* List of saved sketches */}
-      <SavedSketchesList 
+      {/* List of saved drawings */}
+      <SavedDrawingsList 
         drawings={drawings}
         loadDrawing={loadDrawing}
         updateDrawing={updateDrawing}

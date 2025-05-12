@@ -29,8 +29,8 @@
   box-shadow: 0 0 10px 2px rgba(157, 93, 224, 0.7);
 }
 
-/* Fixed styles for buttons in the saved sketches section */
-.saved-sketch-buttons {
+/* Fixed styles for buttons in the saved drawings section */
+.saved-drawing-buttons {
   display: flex !important;
   flex-direction: row !important;
   gap: 10px !important;
@@ -55,13 +55,13 @@
 }
 
 /* Add a special hover effect for the Load and Delete buttons */
-.saved-sketch-buttons .action-button:hover {
+.saved-drawing-buttons .action-button:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Ensure list items maintain horizontal layout */
-.saved-sketches-list li {
+.saved-drawings-list li {
   display: flex !important;
   flex-direction: row !important;
   justify-content: space-between !important;
@@ -75,12 +75,12 @@
 }
 
 /* Add hover styling for the entire list item */
-.saved-sketches-list li:hover {
+.saved-drawings-list li:hover {
   background-color: rgba(157, 93, 224, 0.08) !important;
 }
 
 /* Style for the drawing name/timestamp span */
-.saved-sketches-list li span {
+.saved-drawings-list li span {
   flex-grow: 1 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -88,7 +88,7 @@
 }
 
 /* Specific styles for Load and Delete buttons */
-.saved-sketch-buttons .action-button {
+.saved-drawing-buttons .action-button {
   min-width: 70px !important;
   padding: 8px 12px !important;
   text-align: center !important;

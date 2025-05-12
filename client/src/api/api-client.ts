@@ -1,4 +1,4 @@
-import { Sketch } from "../types/sketches";
+import { Drawing } from "../types/drawings";
 
 // Singleton class to manage API calls
 export class ApiClient {
@@ -11,20 +11,17 @@ export class ApiClient {
       ApiClient.instance = new ApiClient();
 
     return ApiClient.instance;
-  }
-  async getSketches(): Promise<Sketch[]> {
+  }  async getDrawings(): Promise<Drawing[]> {
     const response = await fetch('/sketches');
 
     if (!response.ok)
       throw new Error('Network response was not ok');
-    
-    const data = await response.json();
+      const data = await response.json();
 
-    console.log('Fetched sketches:', data);
+    console.log('Fetched drawings:', data);
     return data;
   }
-
-  async saveSketch(drawing: Sketch): Promise<void> {
+  async saveDrawing(drawing: Drawing): Promise<void> {
     const response = await fetch('/sketches', {
       method: 'POST',
       headers: {
@@ -33,43 +30,36 @@ export class ApiClient {
       body: JSON.stringify(drawing),
     });
 
-    if (!response.ok)
-      throw new Error('Network response was not ok');
+    if (!response.ok)      throw new Error('Network response was not ok');
     
     const data = await response.json();
-    console.log('Saved sketch:', data);
+    console.log('Saved drawing:', data);
     return data;
   }
 
-  async deleteSketch(id: string): Promise<void> {
+  async deleteDrawing(id: string): Promise<void> {
     const response = await fetch(`/sketches/${id}`, {
       method: 'DELETE',
     });
 
-    if (!response.ok)
-      throw new Error('Network response was not ok');
+    if (!response.ok)      throw new Error('Network response was not ok');
     
     const data = await response.json();
-    console.log('Deleted sketch:', data);
+    console.log('Deleted drawing:', data);
     return data;
-  }
-
-  async updateSketch(id: string, sketch: Sketch): Promise<void> {
+  }  async updateDrawing(id: string, drawing: Drawing): Promise<void> {
     const response = await fetch(`/sketches/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(sketch),
+      body: JSON.stringify(drawing),
     });
 
-    console.log('response: ', response);
-    console.log('response.ok: ', response.ok);
-    if (!response.ok)
-      throw new Error('Network response was not ok');
+    if (!response.ok)      throw new Error('Network response was not ok');
     
     const data = await response.json();
-    console.log('Updated sketch:', data);
+    console.log('Updated drawing:', data);
     return data;
   }
 
