@@ -6,7 +6,7 @@ export interface Point {
 }
 
 export interface Drawing {
-  id: string;
+  id?: string; // Optional for new drawings
   name: string;
   dataUrl: string; // Store drawing as data URL
   timestamp: number;

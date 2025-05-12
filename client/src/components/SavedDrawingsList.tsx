@@ -34,7 +34,7 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
         maxWidth: '800px',
         borderRadius: '4px',
       }}>
-        {drawings.sort((a, b) => b.timestamp - a.timestamp).map((drawing) => { 
+        {drawings.filter(drawing => !!drawing.id).sort((a, b) => b.timestamp - a.timestamp).map((drawing) => { 
           return (
           <li 
             key={drawing.id} 
@@ -52,14 +52,14 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
             <span 
-              onClick={() => loadDrawing(drawing.id, drawing.dataUrl)} 
+              onClick={() => loadDrawing(drawing.id!, drawing.dataUrl)} // The filter above ensures drawing.id exits
               style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}
             >
               {drawing.name} - {new Date(drawing.timestamp).toLocaleDateString()} - {new Date(drawing.timestamp).toLocaleTimeString()}
             </span>
             <div className="saved-drawing-buttons">
               <button 
-                onClick={() => updateDrawing(drawing.id)} 
+                onClick={() => updateDrawing(drawing.id!)} // The filter above ensures drawing.id exits
                 style={getButtonStyle(`load-${drawing.id}`, focusedButton, theme, activeThemeColors)}
                 onFocus={() => setFocusedButton(`load-${drawing.id}`)}
                 onBlur={() => setFocusedButton(null)}
@@ -68,7 +68,7 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
                 Update
               </button>
               <button 
-                onClick={() => deleteDrawing(drawing.id)} 
+                onClick={() => deleteDrawing(drawing.id!)} // The filter above ensures drawing.id exits
                 style={getButtonStyle(`delete-${drawing.id}`, focusedButton, theme, activeThemeColors)}
                 onFocus={() => setFocusedButton(`delete-${drawing.id}`)}
                 onBlur={() => setFocusedButton(null)}

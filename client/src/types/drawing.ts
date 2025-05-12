@@ -1,5 +1,5 @@
 export type Drawing = {
-  id: string;
+  id?: string;
   name: string;
   dataUrl: string;
   timestamp: number;
