@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Drawing, ThemeColors } from '../types';
-import { ApiClient } from '../api/api-client';
+import { ApiClient } from '../api/ApiClient';
 
 /**
  * Custom hook for managing drawing storage operations
