@@ -2,7 +2,7 @@ import { Drawing } from "../types/drawing";
 import { DrawingsService } from "./DrawingsService";
 
 // Singleton class to manage API calls
-// Serves as a Facade to other services
+// Serves as a Facade to other API services
 export class ApiClient {
   private static instance: ApiClient;
   private drawingsService: DrawingsService;
@@ -30,7 +30,7 @@ export class ApiClient {
     return this.drawingsService.updateDrawing(id, drawing);
   }
 
-  async deleteDrawing(id: string): Promise<Drawing[]> {
+  async deleteDrawing(id: string): Promise<Drawing> {
     return this.drawingsService.deleteDrawing(id);
   }
 }

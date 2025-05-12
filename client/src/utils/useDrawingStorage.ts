@@ -137,13 +137,14 @@ export const useDrawingStorage = (
   }, [activeThemeColors.stroke, canvasRef, canvasSize, clearCanvas, drawings]);
   // Delete drawing function
   const deleteDrawing = useCallback((drawingId: string) => {
+    if(!window.confirm('Are you sure you want to delete this drawing?')) return;
+
     setDrawings(prevDrawings => {
       const updatedDrawings = prevDrawings.filter(d => d.id !== drawingId);
     
       return updatedDrawings;
     });
-
-    if(!window.confirm('Are you sure you want to delete this drawing?')) return;
+    
     apiClient.deleteDrawing(drawingId)
       .catch(error => {
         console.error('Error deleting drawing from database:', error);

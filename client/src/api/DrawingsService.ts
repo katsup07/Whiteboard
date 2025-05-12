@@ -49,7 +49,7 @@ export class DrawingsService {
       return data;
     }
 
-    async deleteDrawing(id: string): Promise<Drawing[]> {
+    async deleteDrawing(id: string): Promise<Drawing> {
       const response = await fetch(`${this.drawingsEndpoint}/${id}`, {
         method: 'DELETE',
       });

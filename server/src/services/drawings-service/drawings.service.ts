@@ -1,37 +1,27 @@
-import { Drawing } from "types/drawing";
+import { Injectable } from "@nestjs/common";
+import { DrawingsRepository } from "src/repositories/DrawingsRepository";
+import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "src/dtos/drawing.dto";
 
+@Injectable()
 export class DrawingsService {
+
+  constructor(
+    private readonly drawingsRepository: DrawingsRepository,
+  ) {} 
   
-  async getDrawings() {
-    console.log('Fetching drawings...');
-    return dataUrls;
+  async getDrawings(): Promise<DrawingOutput[]> {
+    return this.drawingsRepository.findAll();
   }
 
-  async saveDrawing(drawingData: Drawing) {
-    console.log('Saving drawing...', drawingData);
-    dataUrls.push(drawingData);
-    return drawingData;
+  async saveDrawing(drawingData: CreateDrawingInput): Promise<DrawingOutput> {
+    return this.drawingsRepository.create(drawingData);
   }
 
-  async updateDrawing(drawingId: string, drawingData: Drawing) {
-    console.log('Updating drawing...', drawingId, drawingData);
-    const index = dataUrls.findIndex((drawing) => drawing.id === drawingId);
-    if (index === -1) return;
-      
-    dataUrls[index] = drawingData;
-    return dataUrls[index];
+  async updateDrawing(drawingId: string, drawingData: UpdateDrawingInput): Promise<DrawingOutput> {
+    return this.drawingsRepository.findByIdAndUpdate(drawingId, drawingData);
   }
-
-  async deleteDrawing(drawingId: string) {
-    console.log('Deleting drawing...', drawingId);
-    const index = dataUrls.findIndex((drawing) => drawing.id === drawingId);
-    if (index !== -1) 
-      dataUrls.splice(index, 1);
-
-    return dataUrls;
+  async deleteDrawing(drawingId: string): Promise<DrawingOutput[]> {
+    await this.drawingsRepository.findByIdAndDelete(drawingId);
+    return this.getDrawings();
   }
 }
-// TODO: 1) Implement real database interactions in repository layer. 
-// TODO: 2) Convert data to binary data on client side and store it in the database in order to save space.
-// Temporary Database
-const dataUrls = [];
