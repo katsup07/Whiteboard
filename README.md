@@ -1,6 +1,6 @@
 # Whiteboard Application
 
-This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to sketch ideas on a canvas, save them in the browser's local storage, and export them as PDF files.
+This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to draw ideas on a canvas, save them in the browser's local storage, and export them as PDF files.
 
 ## Features
 
@@ -9,11 +9,11 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 - Theme support: Light and Dark modes
 - Accessibility features with keyboard navigation and focus management
 - Clearing the canvas
-- Naming sketches
-- Saving sketches to local storage
-- Loading saved sketches
-- Deleting saved sketches
-- Exporting sketches to PDF
+- Naming drawings
+- Saving drawings to local storage
+- Loading saved drawings
+- Deleting saved drawings
+- Exporting drawings to PDF
 - Automatic saving of user preferences (pen thickness, theme)
   
 ![dark-whiteboard](https://github.com/user-attachments/assets/f28d3b7d-4e38-467f-bde5-f7d185c375d3)

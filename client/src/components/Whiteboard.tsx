@@ -46,10 +46,9 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     deleteDrawing,
     exportToPdf
   } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, activeThemeColors);
-
   // Handle theme toggle with confirmation
   const toggleTheme = () => {
-    confirm('Switching themes after drawing will discard your current sketch. Are you sure you want to switch themes?') &&
+    confirm('Switching themes after drawing will discard your current drawing. Are you sure you want to switch themes?') &&
     onThemeChange();
   };
   

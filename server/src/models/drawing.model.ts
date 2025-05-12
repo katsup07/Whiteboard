@@ -13,6 +13,9 @@ export class Drawing {
 
   @Prop()
   userId: string;
+
+  @Prop({ default: Date.now })
+  timestamp: number;
 }
 
 export const DrawingSchema = SchemaFactory.createForClass(Drawing);

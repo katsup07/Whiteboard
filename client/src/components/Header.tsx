@@ -52,11 +52,10 @@ const Header: React.FC<HeaderProps> = ({
         <img src="/whiteboard-2.png" alt="Marker" style={{ width: '100px', height: '50px', marginBottom: '20px' }} />
       </div>
       
-      <input 
-        type="text" 
+      <input        type="text" 
         value={currentDrawingName} 
         onChange={(e) => setCurrentDrawingName(e.target.value)}
-        placeholder="Sketch Name"
+        placeholder="Drawing Name"
         style={{
           marginBottom: '10px',
           padding: '8px',

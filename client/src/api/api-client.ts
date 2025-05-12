@@ -1,4 +1,4 @@
-import { Drawing } from "../types/drawings";
+import { Drawing } from "../types/drawing";
 
 // Singleton class to manage API calls
 export class ApiClient {
@@ -12,7 +12,7 @@ export class ApiClient {
 
     return ApiClient.instance;
   }  async getDrawings(): Promise<Drawing[]> {
-    const response = await fetch('/sketches');
+    const response = await fetch('/drawings');
 
     if (!response.ok)
       throw new Error('Network response was not ok');
@@ -20,9 +20,8 @@ export class ApiClient {
 
     console.log('Fetched drawings:', data);
     return data;
-  }
-  async saveDrawing(drawing: Drawing): Promise<void> {
-    const response = await fetch('/sketches', {
+  }  async saveDrawing(drawing: Drawing): Promise<void> {
+    const response = await fetch('/drawings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,9 +35,8 @@ export class ApiClient {
     console.log('Saved drawing:', data);
     return data;
   }
-
   async deleteDrawing(id: string): Promise<void> {
-    const response = await fetch(`/sketches/${id}`, {
+    const response = await fetch(`/drawings/${id}`, {
       method: 'DELETE',
     });
 
@@ -48,7 +46,7 @@ export class ApiClient {
     console.log('Deleted drawing:', data);
     return data;
   }  async updateDrawing(id: string, drawing: Drawing): Promise<void> {
-    const response = await fetch(`/sketches/${id}`, {
+    const response = await fetch(`/drawings/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

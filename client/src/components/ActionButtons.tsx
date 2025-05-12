@@ -48,12 +48,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           src="/save-icon.svg" 
           alt="Save" 
           style={{ 
-            width: '16px', 
-            height: '16px', 
+            width: '16px',            height: '16px', 
             filter: activeThemeColors.iconFilter === 'none' ? 'brightness(5)' : activeThemeColors.iconFilter 
           }} 
         />
-        Save Sketch
+        Save Drawing
       </button>
       <button 
         onClick={exportToPdf} 

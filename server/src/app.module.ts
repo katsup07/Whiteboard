@@ -5,7 +5,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { getDatabaseConfig } from './config/database.config';
 import { AppController } from './controllers/app.controller';
-import { SketchesModule } from './modules/sketches/sketches.module';
+import { DrawingsModule } from './modules/drawings/drawings.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
@@ -16,11 +16,10 @@ import { AuthModule } from './modules/auth/auth.module';
     }),    
     // Database connection
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => getDatabaseConfig(configService),
+      imports: [ConfigModule],      useFactory: (configService: ConfigService) => getDatabaseConfig(configService),
       inject: [ConfigService],
     }),
-    SketchesModule,
+    DrawingsModule,
     AuthModule,
     // Include other modules here
   ],
