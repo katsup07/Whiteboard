@@ -26,6 +26,9 @@ export interface ThemeColors {
   listItemHover: string;
   borderColor: string;      // Border color for canvas, lists, etc.
   activeBorderColor: string; // Border color for active/focused buttons
+  activeBackground: string; // Background color for active/selected buttons
+  focusShadowColor: string; // Shadow color for focused elements
+  headerBackground: string; // Added for header background color
   iconFilter?: string;      // Optional filter for icons (e.g., invert for dark mode)
 }
 

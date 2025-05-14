@@ -6,7 +6,7 @@ import './Whiteboard.css';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import DrawingCanvas from './DrawingCanvas';
-import ActionButtons from './ActionButtons';
+// import ActionButtons from './ActionButtons'; // ActionButtons are now part of Toolbar
 import SavedDrawingsList from './SavedDrawingsList';
 
 // Import custom hooks and utils
@@ -62,7 +62,6 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
   
   return (
     <div 
-      className={theme === 'dark' ? 'dark-mode' : ''}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -70,11 +69,9 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         backgroundColor: activeThemeColors.uiBackground,
         color: activeThemeColors.uiText,
         minHeight: '100vh',
-        padding: '20px',
         position: 'relative'
       }}>
       
-      {/* Header with theme toggle and drawing name input */}
       <Header 
         currentDrawingName={currentDrawingName}
         setCurrentDrawingName={setCurrentDrawingName}
@@ -85,51 +82,47 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         setFocusedButton={setFocusedButton}
       />
 
-      {/* Toolbar with thickness slider and drawing tools */}
-      <Toolbar 
-        penThickness={penThickness}
-        setPenThickness={setPenThickness}
-        drawingMode={drawingMode}
-        setDrawingMode={setDrawingMode}
-        theme={theme}
-        activeThemeColors={activeThemeColors}
-        focusedButton={focusedButton}
-        setFocusedButton={setFocusedButton}
-      />
+      {/* Main content area (Toolbar, Canvas, SavedDrawingsList) */}
+      <div style={{ padding: '70px 20px 20px 20px', width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* Toolbar with thickness slider and drawing tools */}
+        <Toolbar 
+          penThickness={penThickness}
+          setPenThickness={setPenThickness}
+          drawingMode={drawingMode}
+          setDrawingMode={setDrawingMode}
+          clearCanvas={clearCanvas} // Pass clearCanvas
+          saveDrawing={saveDrawing} // Pass saveDrawing
+          exportToPdf={exportToPdf} // Pass exportToPdf
+          theme={theme}
+          activeThemeColors={activeThemeColors}
+          focusedButton={focusedButton}
+          setFocusedButton={setFocusedButton}
+        />
 
-      {/* Canvas for drawing */}
-      <DrawingCanvas 
-        canvasRef={canvasRef}
-        canvasSize={canvasSize}
-        drawingMode={drawingMode}
-        startDrawing={startDrawing}
-        draw={draw}
-        stopDrawing={stopDrawing}
-        activeThemeColors={activeThemeColors}
-        theme={theme}
-      />
-      
-      {/* Action buttons for clear, save, export */}
-      <ActionButtons 
-        clearCanvas={clearCanvas}
-        saveDrawing={saveDrawing}
-        exportToPdf={exportToPdf}
-        theme={theme}
-        activeThemeColors={activeThemeColors}
-        focusedButton={focusedButton}
-        setFocusedButton={setFocusedButton}      />
-      
-      {/* List of saved drawings */}
-      <SavedDrawingsList 
-        drawings={drawings}
-        loadDrawing={loadDrawing}
-        updateDrawing={updateDrawing}
-        deleteDrawing={deleteDrawing}
-        theme={theme}
-        activeThemeColors={activeThemeColors}
-        focusedButton={focusedButton}
-        setFocusedButton={setFocusedButton}
-      />
+        {/* Canvas for drawing */}
+        <DrawingCanvas 
+          canvasRef={canvasRef}
+          canvasSize={canvasSize}
+          drawingMode={drawingMode}
+          startDrawing={startDrawing}
+          draw={draw}
+          stopDrawing={stopDrawing}
+          activeThemeColors={activeThemeColors}
+          theme={theme}
+        />
+        
+        {/* List of saved drawings */}
+        <SavedDrawingsList 
+          drawings={drawings}
+          loadDrawing={loadDrawing}
+          updateDrawing={updateDrawing}
+          deleteDrawing={deleteDrawing}
+          theme={theme}
+          activeThemeColors={activeThemeColors}
+          focusedButton={focusedButton}
+          setFocusedButton={setFocusedButton}
+        />
+      </div>
     </div>
   );
 };

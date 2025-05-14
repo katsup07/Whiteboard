@@ -6,6 +6,9 @@ interface ToolbarProps extends WithThemeProps, WithFocusProps {
   setPenThickness: (thickness: number) => void;
   drawingMode: 'draw' | 'erase';
   setDrawingMode: (mode: 'draw' | 'erase') => void;
+  clearCanvas: () => void;
+  saveDrawing: () => void;
+  exportToPdf: () => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -13,75 +16,79 @@ const Toolbar: React.FC<ToolbarProps> = ({
   setPenThickness,
   drawingMode,
   setDrawingMode,
+  clearCanvas,
+  saveDrawing,
+  exportToPdf,
   activeThemeColors,
   focusedButton,
   setFocusedButton
 }) => {
+  const getToolButtonStyle = (buttonId: string) => ({
+    background: (drawingMode === buttonId || focusedButton === buttonId) ? activeThemeColors.activeBackground : 'transparent',
+    border: (drawingMode === buttonId || focusedButton === buttonId) ?
+              `2px solid ${activeThemeColors.activeBorderColor}` :
+              `2px solid transparent`,
+    borderRadius: '6px',
+    cursor: 'pointer',
+    padding: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    outline: 'none',
+    boxShadow: (drawingMode === buttonId || focusedButton === buttonId) ?
+                  `0 0 8px 2px ${activeThemeColors.focusShadowColor}` :
+                  'none',
+    transition: 'all 0.2s ease-in-out',
+  });
+
+  const getActionButtonStyle = (buttonId: string) => ({
+    background: focusedButton === buttonId ? activeThemeColors.activeBackground : activeThemeColors.buttonBackground,
+    color: activeThemeColors.buttonText,
+    border: focusedButton === buttonId ? `2px solid ${activeThemeColors.activeBorderColor}` : `1px solid ${activeThemeColors.borderColor}`,
+    borderRadius: '6px',
+    cursor: 'pointer',
+    padding: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    outline: 'none',
+    boxShadow: focusedButton === buttonId ? `0 0 8px 2px ${activeThemeColors.focusShadowColor}` : 'none',
+    transition: 'all 0.2s ease-in-out',
+  });
+
   return (
     <div style={{
-      margin: '10px 0',
-      padding: '10px',
+      margin: '10px 0 20px 0',
+      padding: '10px 15px',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      width: '450px',
+      justifyContent: 'flex-start',
+      gap: '15px',
+      width: 'auto',
+      minWidth: 'fit-content',
       border: `1px solid ${activeThemeColors.borderColor}`,
-      borderRadius: '4px',
+      borderRadius: '8px',
       backgroundColor: activeThemeColors.uiBackground,
+      boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
     }}>
-      {/* Thickness Slider */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <label htmlFor="penThickness" style={{ marginRight: '10px', color: activeThemeColors.uiText }}>
-          Thickness:
-        </label>
-        <input
-          type="range"
-          id="penThickness"
-          min="1"
-          max="50"
-          value={penThickness}
-          onChange={(e) => setPenThickness(Number(e.target.value))}
-          style={{ cursor: 'pointer', width: '120px' }}
-        />
-        <span style={{ marginLeft: '10px', color: activeThemeColors.uiText, minWidth: '20px' }}>
-          {penThickness}
-        </span>
-      </div>
-
       {/* Tool Controls (Pen/Eraser) */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <button
           onClick={() => setDrawingMode('draw')}
           title='Switch to Pen'
           onFocus={() => setFocusedButton('penTool')}
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
-          style={{
-            background: drawingMode === 'draw' ? `${activeThemeColors.listItemHover}` : 'transparent',
-            border: (drawingMode === 'draw' || focusedButton === 'penTool') ? 
-                  `1px solid ${activeThemeColors.activeBorderColor}` : 
-                  'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            padding: '5px',
-            marginRight: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            outline: 'none',
-            boxShadow: (drawingMode === 'draw' || focusedButton === 'penTool') ?
-                      `0 0 8px 1px rgba(157, 93, 224, 0.3)` :
-                      'none',
-            transition: 'all 0.2s ease-in-out'
-          }}
+          style={getToolButtonStyle('draw')}
         >
           <img
             src="/pen-icon.svg"
             alt="Pen Tool"
-            style={{ 
-              width: '24px', 
-              height: '24px', 
+            style={{
+              width: '22px',
+              height: '22px',
               filter: activeThemeColors.iconFilter,
-              opacity: drawingMode === 'draw' ? 1 : 0.6
+              opacity: drawingMode === 'draw' ? 1 : 0.7
             }}
           />
         </button>
@@ -91,31 +98,92 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onFocus={() => setFocusedButton('eraserTool')}
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
-          style={{
-            background: drawingMode === 'erase' ? `${activeThemeColors.listItemHover}` : 'transparent',
-            border: (drawingMode === 'erase' || focusedButton === 'eraserTool') 
-              ? `1px solid ${activeThemeColors.activeBorderColor}` 
-              : 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            padding: '5px',
-            display: 'flex',
-            alignItems: 'center',
-            outline: 'none',
-            boxShadow: (drawingMode === 'erase' || focusedButton === 'eraserTool')
-              ? `0 0 8px 1px rgba(157, 93, 224, 0.3)`
-              : 'none',
-            transition: 'all 0.2s ease-in-out'
-          }}
+          style={getToolButtonStyle('erase')}
         >
           <img
             src="/eraser-icon.svg"
             alt="Eraser Tool"
-            style={{ 
-              width: '24px', 
-              height: '24px', 
+            style={{
+              width: '22px',
+              height: '22px',
               filter: activeThemeColors.iconFilter,
-              opacity: drawingMode === 'erase' ? 1 : 0.6
+              opacity: drawingMode === 'erase' ? 1 : 0.7
+            }}
+          />
+        </button>
+      </div>
+
+      {/* Thickness Slider */}
+      <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginRight: '20px', minWidth: '200px' }}>
+        
+        <input
+          type="range"
+          id="penThickness"
+          min="1"
+          max="50"
+          value={penThickness}
+          onChange={(e) => setPenThickness(Number(e.target.value))}
+          style={{ cursor: 'pointer', width: '100%', maxWidth: '150px' }}
+          title={`Pen thickness: ${penThickness}px`}
+        />
+        <span style={{ marginLeft: '10px', color: activeThemeColors.uiText, minWidth: '25px', fontSize: '0.9em' }}>
+          {penThickness}px
+        </span>
+      </div>
+
+      {/* Action Buttons (Clear, Save, Export) */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <button
+          onClick={clearCanvas}
+          style={getActionButtonStyle('clearCanvas')}
+          onFocus={() => setFocusedButton('clearCanvas')}
+          onBlur={() => setFocusedButton(null)}
+          className="action-button"
+          title="Clear Canvas"
+        >
+          <img
+            src="/clear-all-icon.svg"
+            alt="Clear"
+            style={{
+              width: '20px',
+              height: '20px',
+              filter: activeThemeColors.iconFilter
+            }}
+          />
+        </button>
+        <button
+          onClick={saveDrawing}
+          style={getActionButtonStyle('saveDrawing')}
+          onFocus={() => setFocusedButton('saveDrawing')}
+          onBlur={() => setFocusedButton(null)}
+          className="action-button"
+          title="Save Drawing"
+        >
+          <img
+            src="/save-icon.svg"
+            alt="Save"
+            style={{
+              width: '20px',
+              height: '20px',
+              filter: activeThemeColors.iconFilter
+            }}
+          />
+        </button>
+        <button
+          onClick={exportToPdf}
+          style={getActionButtonStyle('exportToPdf')}
+          onFocus={() => setFocusedButton('exportToPdf')}
+          onBlur={() => setFocusedButton(null)}
+          className="action-button"
+          title="Export to PDF"
+        >
+          <img
+            src="/export-pdf-icon.svg"
+            alt="Export PDF"
+            style={{
+              width: '20px',
+              height: '20px',
+              filter: activeThemeColors.iconFilter
             }}
           />
         </button>

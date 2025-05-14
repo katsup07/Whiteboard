@@ -1,0 +1,104 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100vw; /* Make header full width */
+  border-bottom: 1px solid; /* Border color will be set by inline style */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  position: fixed; /* Fix header to top */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.5em; /* Adjust size as needed */
+  margin: 0;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between input and toggle */
+}
+
+.drawing-name-input {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid; /* Border color will be set by inline style */
+  font-size: 0.9em;
+  min-width: 250px;
+}
+
+/* The switch - the box around the slider */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px; /* Smaller width */
+  height: 28px; /* Smaller height */
+}
+
+/* Hide default HTML checkbox */
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Default background */
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px; /* Smaller knob */
+  width: 20px;  /* Smaller knob */
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  /* background-color will be set by inline style based on theme */
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3; /* Optional focus style */
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px); /* Adjust translation for smaller size */
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 28px; /* Adjust for smaller height */
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
