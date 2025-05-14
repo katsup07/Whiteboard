@@ -22,14 +22,12 @@
   border: 1px solid rgba(97, 0, 201, 0.973) !important;
 }
 
-/* Stronger focus style to ensure visibility */
 .action-button:focus-visible {
   outline: none;
   border: 2px solid rgba(97, 0, 201, 0.973) !important;
   box-shadow: 0 0 10px 2px rgba(97, 0, 201, 0.973);
 }
 
-/* Fixed styles for buttons in the saved drawings section */
 .saved-drawing-buttons {
   display: flex !important;
   flex-direction: row !important;
@@ -42,25 +40,22 @@
   margin-left: 10px;
 }
 
-/* Add a special hover effect for the theme toggle button */
 .theme-toggle-button:hover {
   border: 1px solid rgba(97, 0, 201, 0.973) !important;
   transform: translateY(-1px) !important;
 }
 
-/* Styles for pen and eraser tool buttons */
 .tool-button:hover {
   border: 1px solid rgba(97, 0, 201, 0.973) !important;
   box-shadow: 0 0 5px rgba(97, 0, 201, 0.973) !important;
 }
 
-/* Add a special hover effect for the Load and Delete buttons */
 .saved-drawing-buttons .action-button:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 2px 5px rgba(97, 0, 201, 0.973) !important;
 }
 
-/* Ensure list items maintain horizontal layout */
+
 .saved-drawings-list li {
   display: flex !important;
   flex-direction: row !important;
@@ -74,12 +69,10 @@
   transition: background-color 0.2s ease-in-out !important;
 }
 
-/* Add hover styling for the entire list item */
 .saved-drawings-list li:hover {
   background-color: rgba(157, 93, 224, 0.08) !important;
 }
 
-/* Style for the drawing name/timestamp span */
 .saved-drawings-list li span {
   flex-grow: 1 !important;
   overflow: hidden !important;
@@ -87,14 +80,13 @@
   margin-right: 10px !important;
 }
 
-/* Specific styles for Load and Delete buttons */
 .saved-drawing-buttons .action-button {
   min-width: 70px !important;
   padding: 8px 12px !important;
   text-align: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
-  margin-right: 0 !important; /* Override the default action-button margin */
+  margin-right: 0 !important;
   letter-spacing: 0.5px !important;
   font-weight: 500 !important;
 }

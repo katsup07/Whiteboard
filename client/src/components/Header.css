@@ -23,13 +23,13 @@
 }
 
 .logo-image {
-  width: 40px; /* Adjust size as needed */
-  height: 40px; /* Adjust size as needed */
+  width: 40px; 
+  height: 40px;
   margin-right: 10px;
 }
 
 .logo-text {
-  font-size: 1.5em; /* Adjust size as needed */
+  font-size: 1.5em; 
   margin: 0;
 }
 
@@ -70,7 +70,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc; /* Default background */
+  background-color: #646cff; /* Default background */
   transition: .4s;
 }
 
@@ -83,10 +83,6 @@
   bottom: 4px;
   background-color: white;
   transition: .4s;
-}
-
-input:checked + .slider {
-  /* background-color will be set by inline style based on theme */
 }
 
 input:focus + .slider {

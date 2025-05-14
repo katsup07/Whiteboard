@@ -1,4 +1,3 @@
-import { ThemeColors } from "../types";
 import { toast } from 'react-toastify';
 
 export const handleSaveError = (error: {message: string}) => {
@@ -26,8 +25,8 @@ export const decideQuality = (canvasSize: { width: number, height: number}) => {
   return quality;
 }
 
-export const initializeContext = (tempCtx: CanvasRenderingContext2D, activeThemeColors: ThemeColors, canvas: HTMLCanvasElement, tempCanvas: HTMLCanvasElement) => {
-  tempCtx.fillStyle = activeThemeColors.background;
+export const initializeContext = (tempCtx: CanvasRenderingContext2D, backgroundColor: string, canvas: HTMLCanvasElement, tempCanvas: HTMLCanvasElement) => {
+  tempCtx.fillStyle = backgroundColor;
   tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
   tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, tempCanvas.width, tempCanvas.height);
 }

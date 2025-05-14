@@ -6,25 +6,26 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles/toast.css'; // Import custom toast styles
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [canvasTheme, setCanvasTheme] = useState<'light' | 'dark'>('dark');
 
   // Set the theme on the body element as data attribute
   useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-  }, [theme]);
+    // All UI is dark, only canvas background changes
+    document.body.setAttribute('data-theme', 'dark'); 
+  }, []);
 
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  const toggleCanvasTheme = () => {
+    setCanvasTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
 
   return (
     <>
-      <Whiteboard theme={theme} onThemeChange={toggleTheme} />
+      <Whiteboard canvasTheme={canvasTheme} onCanvasThemeChange={toggleCanvasTheme} />
       <ToastContainer 
         position="top-right" 
         autoClose={3000} 
         transition={Zoom} 
-        theme={theme}
+        theme={"dark"} // Toast container will always be dark
         pauseOnHover
         draggable={false}
         closeOnClick

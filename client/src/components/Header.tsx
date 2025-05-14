@@ -1,22 +1,25 @@
 import React from 'react';
-import { WithThemeProps, WithFocusProps } from '../types';
-import './Header.css'; // Import a new CSS file for header styles
+import { WithFocusProps } from '../types'; 
+import './Header.css'; 
+import { defaultTheme } from '../utils/themeUtils';
 
-interface HeaderProps extends WithThemeProps, WithFocusProps {
+interface HeaderProps extends WithFocusProps { 
   currentDrawingName: string;
   setCurrentDrawingName: (name: string) => void;
-  toggleTheme: () => void;
+  toggleCanvasTheme: () => void; 
+  canvasTheme: 'light' | 'dark'; 
 }
 
 const Header: React.FC<HeaderProps> = ({
   currentDrawingName,
   setCurrentDrawingName,
-  toggleTheme,
-  theme,
-  activeThemeColors,
+  toggleCanvasTheme, 
+  canvasTheme, 
   focusedButton,
   setFocusedButton
 }) => {
+  const activeThemeColors = defaultTheme;
+
   return (
     <header className="app-header" >      
     <div className="logo-container">
@@ -40,13 +43,10 @@ const Header: React.FC<HeaderProps> = ({
             boxShadow: focusedButton === 'drawingNameInput' ? `0 0 8px 1px ${activeThemeColors.focusShadowColor}` : 'none'
           }}
         />
-        <label className="theme-switch" title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}>
-          <input type="checkbox" onChange={toggleTheme} checked={theme === 'dark'} />
+        <label className="theme-switch" title={`Switch Canvas to ${canvasTheme === 'light' ? 'Dark' : 'Light'} Mode`}>
+          <input type="checkbox" onChange={toggleCanvasTheme} checked={canvasTheme === 'dark'} />
           <span 
-            className="slider round" 
-            style={{ 
-              backgroundColor: theme === 'dark' ? activeThemeColors.activeBackground : '#ccc',
-            }}
+            className="slider round"
           >
           </span>
         </label>

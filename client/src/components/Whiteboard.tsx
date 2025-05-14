@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Added useEffect
 
 import './Whiteboard.css';
 
@@ -6,25 +6,27 @@ import './Whiteboard.css';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import DrawingCanvas from './DrawingCanvas';
-// import ActionButtons from './ActionButtons'; // ActionButtons are now part of Toolbar
 import SavedDrawingsList from './SavedDrawingsList';
 
 // Import custom hooks and utils
 import { useCanvas, useDrawingStorage } from '../utils';
-import { themes } from '../utils/themeUtils';
-import { Theme } from '../types';
+import { defaultTheme } from '../utils/themeUtils'; 
 import { showConfirm } from '../utils/toastUtils.tsx';
 
 interface WhiteboardProps {
-  theme: Theme;
-  onThemeChange: () => void;
+  canvasTheme: 'light' | 'dark'; 
+  onCanvasThemeChange: () => void; 
 }
 
-const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
-  const [focusedButton, setFocusedButton] = useState<string | null>(null); // Track which button has focus
-  const activeThemeColors = themes[theme];
+const Whiteboard: React.FC<WhiteboardProps> = ({ canvasTheme, onCanvasThemeChange }) => {
+  const [focusedButton, setFocusedButton] = useState<string | null>(null); 
+  const activeThemeColors = defaultTheme; // This is our main UI theme (dark)
 
-  // Use custom hooks to manage canvas and drawing storage
+  // Effect to update body attribute if needed (though App.tsx handles initial)
+  useEffect(() => {
+    document.body.setAttribute('data-theme', 'dark'); // Ensure body always has dark theme
+  }, []);
+
   const { 
     canvasRef, 
     canvasSize, 
@@ -36,7 +38,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     startDrawing, 
     draw, 
     stopDrawing 
-  } = useCanvas(theme);
+  } = useCanvas(canvasTheme); 
 
   const {
     drawings,
@@ -47,16 +49,15 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
     updateDrawing,
     deleteDrawing,
     exportToPdf
-  } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, activeThemeColors, theme);
+  } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, canvasTheme, activeThemeColors); // Pass canvasTheme and activeThemeColors (for UI)
 
-  // Handle theme toggle with confirmation
-  const toggleTheme = async () => {
+  const toggleCanvasTheme = async () => {
     const confirmed = await showConfirm(
-      'Switching themes after drawing will discard your current drawing. Are you sure you want to switch themes?', 
-      theme
+      'Switching canvas themes after drawing will discard your current drawing. Are you sure you want to switch themes?', 
+      'dark' 
     );
     if (confirmed) {
-      onThemeChange();
+      onCanvasThemeChange();
     }
   };
   
@@ -66,7 +67,6 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        // backgroundColor: activeThemeColors.uiBackground,
         color: activeThemeColors.uiText,
         minHeight: '100vh',
         position: 'relative'
@@ -75,31 +75,25 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
       <Header 
         currentDrawingName={currentDrawingName}
         setCurrentDrawingName={setCurrentDrawingName}
-        toggleTheme={toggleTheme}
-        theme={theme}
-        activeThemeColors={activeThemeColors}
+        toggleCanvasTheme={toggleCanvasTheme} 
+        canvasTheme={canvasTheme} 
         focusedButton={focusedButton}
         setFocusedButton={setFocusedButton}
       />
 
-      {/* Main content area (Toolbar, Canvas, SavedDrawingsList) */}
       <div style={{ padding: '70px 20px 20px 20px', width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {/* Toolbar with thickness slider and drawing tools */}
         <Toolbar 
           penThickness={penThickness}
           setPenThickness={setPenThickness}
           drawingMode={drawingMode}
           setDrawingMode={setDrawingMode}
-          clearCanvas={clearCanvas} // Pass clearCanvas
-          saveDrawing={saveDrawing} // Pass saveDrawing
-          exportToPdf={exportToPdf} // Pass exportToPdf
-          theme={theme}
-          activeThemeColors={activeThemeColors}
+          clearCanvas={clearCanvas}
+          saveDrawing={saveDrawing}
+          exportToPdf={exportToPdf}
           focusedButton={focusedButton}
           setFocusedButton={setFocusedButton}
         />
 
-        {/* Canvas for drawing */}
         <DrawingCanvas 
           canvasRef={canvasRef}
           canvasSize={canvasSize}
@@ -107,18 +101,14 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
           startDrawing={startDrawing}
           draw={draw}
           stopDrawing={stopDrawing}
-          activeThemeColors={activeThemeColors}
-          theme={theme}
+          canvasTheme={canvasTheme} 
         />
         
-        {/* List of saved drawings */}
         <SavedDrawingsList 
           drawings={drawings}
           loadDrawing={loadDrawing}
           updateDrawing={updateDrawing}
           deleteDrawing={deleteDrawing}
-          theme={theme}
-          activeThemeColors={activeThemeColors}
           focusedButton={focusedButton}
           setFocusedButton={setFocusedButton}
         />

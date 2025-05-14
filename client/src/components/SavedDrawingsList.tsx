@@ -1,8 +1,8 @@
 import React from 'react';
-import { WithThemeProps, WithFocusProps, Drawing } from '../types';
-import { getButtonStyle } from '../utils/themeUtils';
+import { WithFocusProps, Drawing } from '../types'; 
+import { defaultTheme } from '../utils/themeUtils'; 
 
-interface SavedDrawingsListProps extends WithThemeProps, WithFocusProps {
+interface SavedDrawingsListProps extends WithFocusProps { 
   drawings: Drawing[];
   loadDrawing: (id: string, dataUrl: string) => void;
   deleteDrawing: (id: string) => void;
@@ -14,15 +14,31 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
   loadDrawing,
   updateDrawing,
   deleteDrawing,
-  theme,
-  activeThemeColors,
   focusedButton,
   setFocusedButton
 }) => {
+  const activeThemeColors = defaultTheme;
+
+  const getButtonStyle = (buttonId: string) => ({
+    marginRight: '10px', 
+    backgroundColor: activeThemeColors.buttonBackground, 
+    color: activeThemeColors.buttonText, 
+    border: `1px solid ${focusedButton === buttonId ? activeThemeColors.activeBorderColor : 'transparent'}`, 
+    padding: '10px 15px', 
+    borderRadius: '4px', 
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    outline: 'none',
+    transition: 'all 0.2s ease-in-out',
+    boxShadow: focusedButton === buttonId ? `0 0 8px 1px ${activeThemeColors.activeBorderColor}` : 'none',
+  });
+
   return (
     <>
-      <h3 style={{ marginTop: '25px' }}>Saved Drawings</h3>
-      {drawings.length === 0 && <p>No drawings saved yet.</p>}
+      <h3 style={{ marginTop: '25px', color: activeThemeColors.uiText }}>Saved Drawings</h3>
+      {drawings.length === 0 && <p style={{ color: activeThemeColors.uiText }}>No drawings saved yet.</p>}
       <ul className="saved-drawings-list" style={{
         listStyle: 'none',
         padding: '10px',
@@ -33,6 +49,7 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
         width: '100%',
         maxWidth: '800px',
         borderRadius: '4px',
+        borderColor: "1px solid #646cff !important"
       }}>
         {drawings.filter(drawing => !!drawing.id).sort((a, b) => b.timestamp - a.timestamp).map((drawing) => { 
           return (
@@ -52,15 +69,15 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
             <span 
-              onClick={() => loadDrawing(drawing.id!, drawing.dataUrl)} // The filter above ensures drawing.id exits
+              onClick={() => loadDrawing(drawing.id!, drawing.dataUrl)} 
               style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}
             >
               {drawing.name} - {new Date(drawing.timestamp).toLocaleDateString()} - {new Date(drawing.timestamp).toLocaleTimeString()}
             </span>
             <div className="saved-drawing-buttons">
               <button 
-                onClick={() => updateDrawing(drawing.id!)} // The filter above ensures drawing.id exits
-                style={getButtonStyle(`load-${drawing.id}`, focusedButton, theme, activeThemeColors)}
+                onClick={() => updateDrawing(drawing.id!)} 
+                style={getButtonStyle(`load-${drawing.id}`)}
                 onFocus={() => setFocusedButton(`load-${drawing.id}`)}
                 onBlur={() => setFocusedButton(null)}
                 className="action-button"
@@ -68,8 +85,8 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
                 Update
               </button>
               <button 
-                onClick={() => deleteDrawing(drawing.id!)} // The filter above ensures drawing.id exits
-                style={getButtonStyle(`delete-${drawing.id}`, focusedButton, theme, activeThemeColors)}
+                onClick={() => deleteDrawing(drawing.id!)} 
+                style={getButtonStyle(`delete-${drawing.id}`)}
                 onFocus={() => setFocusedButton(`delete-${drawing.id}`)}
                 onBlur={() => setFocusedButton(null)}
                 className="action-button"

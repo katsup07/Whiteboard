@@ -13,7 +13,7 @@ export interface Drawing {
 }
 
 // Theme Definitions
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark'; // This will be simplified to just affect canvas background
 
 export interface ThemeColors {
   background: string;       // Canvas background
@@ -33,11 +33,6 @@ export interface ThemeColors {
 }
 
 // Common props
-export interface WithThemeProps {
-  theme: Theme;
-  activeThemeColors: ThemeColors;
-}
-
 export interface WithFocusProps {
   focusedButton: string | null;
   setFocusedButton: (id: string | null) => void;

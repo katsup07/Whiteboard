@@ -1,7 +1,8 @@
 import React from 'react';
-import { WithThemeProps, WithFocusProps } from '../types';
+import { WithFocusProps } from '../types'; // Removed WithThemeProps
+import { defaultTheme } from '../utils/themeUtils'; // Import defaultTheme
 
-interface ToolbarProps extends WithThemeProps, WithFocusProps {
+interface ToolbarProps extends WithFocusProps { // Removed WithThemeProps
   penThickness: number;
   setPenThickness: (thickness: number) => void;
   drawingMode: 'draw' | 'erase';
@@ -19,10 +20,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
   clearCanvas,
   saveDrawing,
   exportToPdf,
-  activeThemeColors,
   focusedButton,
   setFocusedButton
 }) => {
+  const activeThemeColors = defaultTheme; // Use defaultTheme
+
   const getToolButtonStyle = (buttonId: string) => ({
     background: (drawingMode === buttonId || focusedButton === buttonId) ? activeThemeColors.activeBackground : 'transparent',
     border: (drawingMode === buttonId || focusedButton === buttonId) ?
@@ -80,7 +82,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
           style={getToolButtonStyle('draw')}
-        >          <img
+        >
+          <img
             src="/icons/pen-icon.svg"
             alt="Pen Tool"
             style={{
@@ -98,7 +101,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
           style={getToolButtonStyle('erase')}
-        >          <img
+        >
+          <img
             src="/icons/eraser-icon.svg"
             alt="Eraser Tool"
             style={{
@@ -138,7 +142,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Clear Canvas"
-        >          <img
+        >
+          <img
             src="/icons/clear-all-icon.svg"
             alt="Clear"
             style={{
@@ -155,7 +160,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Save Drawing"
-        >          <img
+        >
+          <img
             src="/icons/save-icon.svg"
             alt="Save"
             style={{
@@ -172,7 +178,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Export to PDF"
-        >          <img
+        >
+          <img
             src="/icons/export-pdf-icon.svg"
             alt="Export PDF"
             style={{

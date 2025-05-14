@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Point, Theme } from '../types';
-import { themes } from './themeUtils';
+import { Point } from '../types'; // Removed Theme type import
+import { defaultTheme } from './themeUtils'; // Import defaultTheme
 
 /**
  * Custom hook for canvas management and drawing operations
- * @param theme Current theme (light or dark)
+ * @param canvasTheme Current theme for the canvas (light or dark)
  */
-export const useCanvas = (theme: Theme) => {
+export const useCanvas = (canvasTheme: 'light' | 'dark') => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lastPosition, setLastPosition] = useState<Point | null>(null);
@@ -14,7 +14,9 @@ export const useCanvas = (theme: Theme) => {
   const [drawingMode, setDrawingMode] = useState<'draw' | 'erase'>('draw');
   const [penThickness, setPenThickness] = useState<number>(2);
   
-  const activeThemeColors = themes[theme];
+  // Determine canvas background and stroke colors based on canvasTheme
+  const canvasBackgroundColor = canvasTheme === 'light' ? '#FFFFFF' : defaultTheme.background;
+  const strokeColor = canvasTheme === 'light' ? '#000000' : defaultTheme.stroke;
 
   // Load initial pen thickness from localStorage
   useEffect(() => {
@@ -37,10 +39,10 @@ export const useCanvas = (theme: Theme) => {
     const context = canvas.getContext('2d');
     if (!context) return;
 
-    context.fillStyle = activeThemeColors.background;
+    context.fillStyle = canvasBackgroundColor;
     context.fillRect(0, 0, canvasSize.width, canvasSize.height);
-    context.strokeStyle = activeThemeColors.stroke;
-  }, [activeThemeColors, canvasSize.width, canvasSize.height]);
+    context.strokeStyle = strokeColor;
+  }, [canvasBackgroundColor, strokeColor, canvasSize.width, canvasSize.height]);
 
   // Setup canvas and handle window resize
   useEffect(() => {
@@ -75,13 +77,13 @@ export const useCanvas = (theme: Theme) => {
 
   // Clear canvas and update when theme changes
   useEffect(() => {
-    localStorage.setItem('whiteboardTheme', theme);
+    localStorage.setItem('whiteboardCanvasTheme', canvasTheme); // Save canvasTheme
     
     const canvas = canvasRef.current;
     if (canvas && canvas.getContext('2d') && canvasSize.width > 0 && canvasSize.height > 0) {
       clearCanvas();
     }
-  }, [theme, clearCanvas, canvasSize.width, canvasSize.height]);
+  }, [canvasTheme, clearCanvas, canvasSize.width, canvasSize.height]);
 
   // Utility function to get mouse position relative to canvas
   const getMousePosition = useCallback((event: React.MouseEvent<HTMLCanvasElement>): Point => {
@@ -101,40 +103,38 @@ export const useCanvas = (theme: Theme) => {
     const context = canvasRef.current?.getContext('2d');
     if (!context) return;
 
+    const pos = getMousePosition(event);
     setIsDrawing(true);
-    const currentPosition = getMousePosition(event);
-    setLastPosition(currentPosition);
+    setLastPosition(pos);
 
+    // Setup context for drawing or erasing
     context.beginPath();
-    context.moveTo(currentPosition.x, currentPosition.y);
-    context.fillStyle = drawingMode === 'draw' ? activeThemeColors.stroke : activeThemeColors.background;
-    context.arc(currentPosition.x, currentPosition.y, penThickness / 2, 0, 2 * Math.PI);
-    context.fill();
-    context.closePath();
-  }, [activeThemeColors, drawingMode, getMousePosition, penThickness]);
-
-  // Draw function
-  const draw = useCallback((event: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    if (!context || !lastPosition) return;
-
-    const currentPosition = getMousePosition(event);
-
-    context.beginPath();
-    context.moveTo(lastPosition.x, lastPosition.y);
-    context.lineTo(currentPosition.x, currentPosition.y);
-    context.strokeStyle = drawingMode === 'draw' ? activeThemeColors.stroke : activeThemeColors.background;
     context.lineWidth = penThickness;
     context.lineCap = 'round';
     context.lineJoin = 'round';
-    context.stroke();
-    context.closePath();
 
+    if (drawingMode === 'draw') {
+      context.strokeStyle = strokeColor;
+      context.globalCompositeOperation = 'source-over'; // Default drawing mode
+    } else if (drawingMode === 'erase') {
+      context.strokeStyle = canvasBackgroundColor; // Eraser uses background color
+      context.globalCompositeOperation = 'destination-out'; // Erasing mode
+    }
+    context.moveTo(pos.x, pos.y);
+  }, [getMousePosition, penThickness, drawingMode, strokeColor, canvasBackgroundColor]);
+
+  // Draw function
+  const draw = useCallback((event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !lastPosition) return;
+
+    const context = canvasRef.current?.getContext('2d');
+    if (!context) return;
+
+    const currentPosition = getMousePosition(event);
+    context.lineTo(currentPosition.x, currentPosition.y);
+    context.stroke();
     setLastPosition(currentPosition);
-  }, [activeThemeColors, drawingMode, getMousePosition, isDrawing, lastPosition, penThickness]);
+  }, [isDrawing, lastPosition, getMousePosition]);
 
   // Stop drawing function
   const stopDrawing = useCallback(() => {
