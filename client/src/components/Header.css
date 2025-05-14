@@ -4,14 +4,14 @@
   align-items: center;
   padding: 10px 20px;
   width: 100vw; /* Make header full width */
-  border-bottom: 1px solid; /* Border color will be set by inline style */
   box-sizing: border-box;
-  margin-bottom: 20px;
   position: fixed; /* Fix header to top */
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000; /* Ensure header is above other content */
+  background-image: url('/crayon-texture.svg');
+  background-repeat: repeat;
 }
 
 .logo-container {
