@@ -18,9 +18,9 @@ const Header: React.FC<HeaderProps> = ({
   setFocusedButton
 }) => {
   return (
-    <header className="app-header" style={{ backgroundColor: activeThemeColors.headerBackground, borderBottomColor: activeThemeColors.borderColor }}>
-      <div className="logo-container">
-        <img src="/whiteboard-2.png" alt="Whiteboard Logo" className="logo-image" />
+    <header className="app-header" >      
+    <div className="logo-container">
+        <img src="/images/whiteboard-2.png" alt="Whiteboard Logo" className="logo-image" />
         <h1 className="logo-text" style={{ color: activeThemeColors.uiText }}>Whiteboard</h1>
       </div>
 

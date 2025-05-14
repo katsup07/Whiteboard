@@ -80,9 +80,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
           style={getToolButtonStyle('draw')}
-        >
-          <img
-            src="/pen-icon.svg"
+        >          <img
+            src="/icons/pen-icon.svg"
             alt="Pen Tool"
             style={{
               width: '22px',
@@ -99,9 +98,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="tool-button"
           style={getToolButtonStyle('erase')}
-        >
-          <img
-            src="/eraser-icon.svg"
+        >          <img
+            src="/icons/eraser-icon.svg"
             alt="Eraser Tool"
             style={{
               width: '22px',
@@ -140,9 +138,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Clear Canvas"
-        >
-          <img
-            src="/clear-all-icon.svg"
+        >          <img
+            src="/icons/clear-all-icon.svg"
             alt="Clear"
             style={{
               width: '20px',
@@ -158,9 +155,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Save Drawing"
-        >
-          <img
-            src="/save-icon.svg"
+        >          <img
+            src="/icons/save-icon.svg"
             alt="Save"
             style={{
               width: '20px',
@@ -176,9 +172,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onBlur={() => setFocusedButton(null)}
           className="action-button"
           title="Export to PDF"
-        >
-          <img
-            src="/export-pdf-icon.svg"
+        >          <img
+            src="/icons/export-pdf-icon.svg"
             alt="Export PDF"
             style={{
               width: '20px',

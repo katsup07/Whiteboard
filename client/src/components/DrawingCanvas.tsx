@@ -20,12 +20,11 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({
   activeThemeColors
 }) => {
   return (
-    <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <canvas
+    <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>      <canvas
         ref={canvasRef}
         style={{
-          border: `1px solid ${activeThemeColors.borderColor}`,
-          cursor: drawingMode === 'draw' ? `url(/pen-icon.svg) 0 24, auto` : `url(/eraser-icon.svg) 0 24, auto`,
+          border: `1px solid #646cff`,
+          cursor: drawingMode === 'draw' ? `url(/icons/pen-icon.svg) 0 24, auto` : `url(/icons/eraser-icon.svg) 0 24, auto`,
           backgroundColor: activeThemeColors.background,
           borderRadius: '4px',
           width: `${canvasSize.width}px`,

@@ -36,18 +36,18 @@ body {
   min-width: 320px;
   min-height: 100vh;
   /* Use CSS variables to match current theme */
-  background-color: var(--background-color-dark); /* Default to dark */
+  background-size: cover;
+  background-image: url('/images/dotted-background.png');
 }
 
 /* Apply theme colors based on data-theme attribute */
 body[data-theme="dark"] {
   color: var(--text-color-dark);
-  background-color: var(--background-color-dark);
 }
 
 body[data-theme="light"] {
   color: var(--text-color-light);
-  background-color: var(--background-color-light);
+  background-image: url('/images/dotted-background.png');
 }
 
 h1 {

@@ -66,7 +66,7 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ theme, onThemeChange }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: activeThemeColors.uiBackground,
+        // backgroundColor: activeThemeColors.uiBackground,
         color: activeThemeColors.uiText,
         minHeight: '100vh',
         position: 'relative'
