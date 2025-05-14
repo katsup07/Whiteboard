@@ -15,10 +15,13 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 - Deleting saved drawings
 - Exporting drawings to PDF
 - Automatic saving of user preferences (pen thickness, theme)
-  
-![dark-whiteboard](https://github.com/user-attachments/assets/f28d3b7d-4e38-467f-bde5-f7d185c375d3)
+</br>
 
-![Vite-React-TS-05-10-2025_03_52_PM](https://github.com/user-attachments/assets/eea0f409-8fa4-4001-8460-6d72bb625e86)
+![Blackboard](https://github.com/user-attachments/assets/0b719613-9832-4e73-96d5-25eedf1ffde5)
+</br>
+
+![Whiteboard](https://github.com/user-attachments/assets/ae1b491b-62f9-4948-9940-5cb1d02981b1)
+
 
 ## Available Scripts
 
