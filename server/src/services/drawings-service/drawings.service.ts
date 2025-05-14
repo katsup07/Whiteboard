@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { DrawingsRepository } from "src/repositories/DrawingsRepository";
+import { Injectable, Inject } from "@nestjs/common";
 import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "src/dtos/drawing.dto";
+import { DrawingsRepository } from "src/interfaces/drawings-repository.interface";
 
 @Injectable()
 export class DrawingsService {
 
   constructor(
-    private readonly drawingsRepository: DrawingsRepository,
+    @Inject('DrawingsRepository') private readonly drawingsRepository: DrawingsRepository,
   ) {} 
   
   async getDrawings(): Promise<DrawingOutput[]> {

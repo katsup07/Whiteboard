@@ -4,9 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Drawing, DrawingDocument } from 'src/models/drawing.model';
 import { DrawingOutput, CreateDrawingInput, UpdateDrawingInput } from 'src/dtos/drawing.dto';
-
+import { DrawingsRepository } from 'src/interfaces/drawings-repository.interface';
 @Injectable()
-export class DrawingsRepository {  
+export class MongoDrawingsRepository implements DrawingsRepository {  
   
   constructor(
     @InjectModel(Drawing.name) private readonly drawingModel: Model<DrawingDocument>,
