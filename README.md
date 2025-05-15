@@ -8,9 +8,7 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 - Multiple drawing modes: pen and eraser
 - Theme support: Light and Dark modes
 - Accessibility features with keyboard navigation and focus management
-- Clearing the canvas
 - Naming drawings
-- Saving drawings to local storage
 - Loading saved drawings
 - Deleting saved drawings
 - Exporting drawings to PDF
