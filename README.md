@@ -15,6 +15,9 @@ This is a simple whiteboard application built with React, Vite, and TypeScript. 
 - Automatic saving of user preferences (pen thickness, theme)
 </br>
 
+### Press Play to Watch GIF
+![whiteboard-app](https://github.com/user-attachments/assets/7c87e2aa-521d-4490-b97b-230fdca0a3df)
+
 ![Blackboard](https://github.com/user-attachments/assets/0b719613-9832-4e73-96d5-25eedf1ffde5)
 </br>
 
