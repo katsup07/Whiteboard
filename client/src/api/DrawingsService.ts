@@ -1,7 +1,8 @@
 import { Drawing } from "../types";
+import { BASE_API_URL } from "./urls";
 
 export class DrawingsService {
-  private drawingsEndpoint = "/drawings";
+  private drawingsEndpoint = `${BASE_API_URL}/drawings`;
 
   async getDrawings(): Promise<Drawing[]> {
       const response = await fetch(this.drawingsEndpoint);
@@ -10,8 +11,7 @@ export class DrawingsService {
         throw new Error('Network response was not ok');
 
       const data = await response.json();
-      console.log('Fetched drawings:', data);
-
+    
       return data ?? [];
     }    async saveDrawing(drawing: Drawing): Promise<Drawing> {
       const response = await fetch(this.drawingsEndpoint, {
@@ -30,7 +30,7 @@ export class DrawingsService {
       }
       
       const data = await response.json();
-      console.log('Saved drawing:', data);
+    
       return data;
     }
   
@@ -51,7 +51,7 @@ export class DrawingsService {
       }
       
       const data = await response.json();
-      console.log('Updated drawing:', data);
+     
       return data;
     }
 
@@ -64,7 +64,7 @@ export class DrawingsService {
         throw new Error('Network response was not ok');
       
       const data = await response.json();
-      console.log('Deleted drawing:', data);
+    
       return data;
     }
 }
