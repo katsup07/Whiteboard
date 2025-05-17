@@ -124,6 +124,7 @@ export const useDrawingStorage = (
 
     const img = new Image();
     img.onload = () => {
+      context.globalCompositeOperation = 'source-over'; // Reset composite operation
       context.drawImage(img, 0, 0, canvasSize.width, canvasSize.height);
       // Ensure strokeStyle is set based on the uiThemeColors for consistency,
       // as the canvas content itself doesn't inherently have a "theme" after loading.
