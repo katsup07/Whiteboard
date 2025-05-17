@@ -10,6 +10,8 @@ interface ToolbarProps extends WithFocusProps { // Removed WithThemeProps
   clearCanvas: () => void;
   saveDrawing: () => void;
   exportToPdf: () => void;
+  strokeColor: string;
+  setStrokeColor: (color: string) => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -21,27 +23,11 @@ const Toolbar: React.FC<ToolbarProps> = ({
   saveDrawing,
   exportToPdf,
   focusedButton,
-  setFocusedButton
+  setFocusedButton,
+  strokeColor,
+  setStrokeColor
 }) => {
   const activeThemeColors = defaultTheme; // Use defaultTheme
-
-  const getToolButtonStyle = (buttonId: string) => ({
-    background: (drawingMode === buttonId || focusedButton === buttonId) ? activeThemeColors.activeBackground : 'transparent',
-    border: (drawingMode === buttonId || focusedButton === buttonId) ?
-              `2px solid ${activeThemeColors.activeBorderColor}` :
-              `2px solid transparent`,
-    borderRadius: '6px',
-    cursor: 'pointer',
-    padding: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    outline: 'none',
-    boxShadow: (drawingMode === buttonId || focusedButton === buttonId) ?
-                  `0 0 8px 2px ${activeThemeColors.focusShadowColor}` :
-                  'none',
-    transition: 'all 0.2s ease-in-out',
-  });
 
   const getActionButtonStyle = (buttonId: string) => ({
     background: focusedButton === buttonId ? activeThemeColors.activeBackground : activeThemeColors.buttonBackground,
@@ -80,15 +66,21 @@ const Toolbar: React.FC<ToolbarProps> = ({
           title='Switch to Pen'
           onFocus={() => setFocusedButton('penTool')}
           onBlur={() => setFocusedButton(null)}
-          className="tool-button"
-          style={getToolButtonStyle('draw')}
+          className="action-button"          style={{
+            ...getActionButtonStyle('penTool'),
+            ...(drawingMode === 'draw' ? {
+              background: activeThemeColors.activeBackground,
+              border: `2px solid ${activeThemeColors.activeBorderColor}`,
+              boxShadow: `0 0 8px 2px ${activeThemeColors.focusShadowColor}`
+            } : {})
+          }}
         >
           <img
             src="/icons/pen-icon.svg"
             alt="Pen Tool"
             style={{
-              width: '22px',
-              height: '22px',
+              width: '20px',
+              height: '20px',
               filter: activeThemeColors.iconFilter,
               opacity: drawingMode === 'draw' ? 1 : 0.7
             }}
@@ -99,21 +91,52 @@ const Toolbar: React.FC<ToolbarProps> = ({
           title='Switch to Eraser'
           onFocus={() => setFocusedButton('eraserTool')}
           onBlur={() => setFocusedButton(null)}
-          className="tool-button"
-          style={getToolButtonStyle('erase')}
+          className="action-button"          style={{
+            ...getActionButtonStyle('eraserTool'),
+            ...(drawingMode === 'erase' ? {
+              background: activeThemeColors.activeBackground,
+              border: `2px solid ${activeThemeColors.activeBorderColor}`,
+              boxShadow: `0 0 8px 2px ${activeThemeColors.focusShadowColor}`
+            } : {})
+          }}
         >
           <img
             src="/icons/eraser-icon.svg"
             alt="Eraser Tool"
             style={{
-              width: '22px',
-              height: '22px',
+              width: '20px',
+              height: '20px',
               filter: activeThemeColors.iconFilter,
               opacity: drawingMode === 'erase' ? 1 : 0.7
             }}
           />
         </button>
+        <div
+          style={getActionButtonStyle('colorPicker')}
+          className="action-button"
+          title="Choose pen color"
+        >
+          <input
+            type="color"            
+            value={strokeColor}
+            onChange={e => setStrokeColor(e.target.value)}
+            title="Choose pen color"
+            className="color-picker"
+            onFocus={() => setFocusedButton('colorPicker')}
+            onBlur={() => setFocusedButton(null)}
+            style={{
+              width: '20px',
+              height: '20px',
+              padding: 0,
+              border: 'none',
+              outline: 'none',
+              cursor: 'pointer',
+              background: 'transparent'
+            }}
+          />
+        </div>
       </div>
+      
 
       {/* Thickness Slider */}
       <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginRight: '20px', minWidth: '200px' }}>

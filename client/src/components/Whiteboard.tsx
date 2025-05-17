@@ -12,9 +12,10 @@ import SavedDrawingsList from './SavedDrawingsList';
 import { useCanvas, useDrawingStorage } from '../utils';
 import { defaultTheme } from '../utils/themeUtils'; 
 import { showConfirm } from '../utils/toastUtils.tsx';
+import { Theme } from '../types.ts';
 
 interface WhiteboardProps {
-  canvasTheme: 'light' | 'dark'; 
+  canvasTheme: Theme; 
   onCanvasThemeChange: () => void; 
 }
 
@@ -32,6 +33,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ canvasTheme, onCanvasThemeChang
     canvasSize, 
     penThickness, 
     setPenThickness, 
+    strokeColor,
+    setStrokeColor,
     drawingMode, 
     setDrawingMode, 
     clearCanvas, 
@@ -90,6 +93,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ canvasTheme, onCanvasThemeChang
           clearCanvas={clearCanvas}
           saveDrawing={saveDrawing}
           exportToPdf={exportToPdf}
+          strokeColor={strokeColor}
+          setStrokeColor={setStrokeColor}
           focusedButton={focusedButton}
           setFocusedButton={setFocusedButton}
         />

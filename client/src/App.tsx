@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles/toast.css'; // Import custom toast styles
+import { Theme } from './types';
 
 function App() {
-  const [canvasTheme, setCanvasTheme] = useState<'light' | 'dark'>('dark');
+  const [canvasTheme, setCanvasTheme] = useState<Theme>('dark');
 
   // Set the theme on the body element as data attribute
   useEffect(() => {

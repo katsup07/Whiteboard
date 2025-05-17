@@ -11,9 +11,9 @@ export const defaultTheme: ThemeColors = {
   listBackground: '#2C2C2C',
   listItemHover: '#383838',
   borderColor: '#4A4A4A',
-  activeBorderColor: '#BB86FC',
-  activeBackground: '#4A3F5E',
-  focusShadowColor: 'rgba(187, 134, 252, 0.6)',
-  headerBackground: '#4A3F5E',
+  activeBorderColor: '#3E8AE5', // Changed from purple to blue
+  activeBackground: '#2C4A7A',  // Changed to a darker blue
+  focusShadowColor: 'rgba(62, 138, 229, 0.6)', // Changed to match blue
+  headerBackground: '#2C4A7A',  // Updated to match the active background
   iconFilter: 'invert(100%) brightness(1.5)',
 };

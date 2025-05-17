@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Point } from '../types'; // Removed Theme type import
+import { Point, Theme } from '../types'; // Removed Theme type import
 import { defaultTheme } from './themeUtils'; // Import defaultTheme
 
 /**
  * Custom hook for canvas management and drawing operations
  * @param canvasTheme Current theme for the canvas (light or dark)
  */
-export const useCanvas = (canvasTheme: 'light' | 'dark') => {
+export const useCanvas = (canvasTheme: Theme) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lastPosition, setLastPosition] = useState<Point | null>(null);
@@ -16,7 +16,9 @@ export const useCanvas = (canvasTheme: 'light' | 'dark') => {
   
   // Determine canvas background and stroke colors based on canvasTheme
   const canvasBackgroundColor = canvasTheme === 'light' ? '#FFFFFF' : defaultTheme.background;
-  const strokeColor = canvasTheme === 'light' ? '#000000' : defaultTheme.stroke;
+  const [strokeColor, setStrokeColor] = useState<string>(
+    canvasTheme === 'light' ? '#000000' : defaultTheme.stroke
+  );
 
   // Load initial pen thickness from localStorage
   useEffect(() => {
@@ -30,7 +32,6 @@ export const useCanvas = (canvasTheme: 'light' | 'dark') => {
   useEffect(() => {
     localStorage.setItem('whiteboardPenThickness', penThickness.toString());
   }, [penThickness]);
-
   // Clear canvas function
   const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -41,8 +42,8 @@ export const useCanvas = (canvasTheme: 'light' | 'dark') => {
 
     context.fillStyle = canvasBackgroundColor;
     context.fillRect(0, 0, canvasSize.width, canvasSize.height);
-    context.strokeStyle = strokeColor;
-  }, [canvasBackgroundColor, strokeColor, canvasSize.width, canvasSize.height]);
+    // Don't set strokeStyle here - we'll set it when needed in drawing operations
+  }, [canvasBackgroundColor, canvasSize.width, canvasSize.height]);
 
   // Setup canvas and handle window resize
   useEffect(() => {
@@ -74,16 +75,22 @@ export const useCanvas = (canvasTheme: 'light' | 'dark') => {
       window.removeEventListener('resize', handleResize);
     };
   }, [clearCanvas]);
-
   // Clear canvas and update when theme changes
   useEffect(() => {
     localStorage.setItem('whiteboardCanvasTheme', canvasTheme); // Save canvasTheme
     
     const canvas = canvasRef.current;
-    if (canvas && canvas.getContext('2d') && canvasSize.width > 0 && canvasSize.height > 0) {
+    if (canvas && canvas.getContext('2d') && canvasSize.width > 0 && canvasSize.height > 0)
       clearCanvas();
-    }
+
   }, [canvasTheme, clearCanvas, canvasSize.width, canvasSize.height]);
+
+  // Handle color changes when theme changes to prevent invisible strokes
+  useEffect(() => {
+    // Change stroke color to black when switching to light theme if using white
+    if(canvasTheme === 'light' && strokeColor === '#FFFFFF')
+      setStrokeColor('#000000')
+  }, [canvasTheme, strokeColor]);
 
   // Utility function to get mouse position relative to canvas
   const getMousePosition = useCallback((event: React.MouseEvent<HTMLCanvasElement>): Point => {
@@ -147,6 +154,8 @@ export const useCanvas = (canvasTheme: 'light' | 'dark') => {
     canvasSize,
     penThickness,
     setPenThickness,
+    strokeColor,
+    setStrokeColor,
     drawingMode,
     setDrawingMode,
     clearCanvas,
