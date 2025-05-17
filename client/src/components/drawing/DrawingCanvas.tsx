@@ -1,5 +1,5 @@
 import React from 'react';
-import { defaultTheme } from '../utils/themeUtils';
+import { defaultTheme } from '../../utils/themeUtils';
 
 interface DrawingCanvasProps {
   canvasRef: React.RefObject<HTMLCanvasElement>;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { WithFocusProps, Drawing } from '../types'; 
-import { defaultTheme } from '../utils/themeUtils'; 
+import { WithFocusProps, Drawing } from '../../types'; 
+import { defaultTheme } from '../../utils/themeUtils'; 
 
 interface SavedDrawingsListProps extends WithFocusProps { 
   drawings: Drawing[];

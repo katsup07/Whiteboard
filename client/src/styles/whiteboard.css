@@ -98,6 +98,22 @@
   margin-left: 0px;
   width: 22px;
   height: 22px;
-  outline: 'none';
-  background: 'transparent'
+  outline: none;
+  background: transparent;
+}
+
+.drawing-name-input {
+  font-size: 14px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.drawing-name-input:hover {
+  border-color: #3E8AE5 !important;
+}
+
+.drawing-name-input:focus {
+  outline: none;
+  border-color: #3E8AE5 !important;
+  box-shadow: 0 0 8px 1px rgba(62, 138, 229, 0.6) !important;
 }

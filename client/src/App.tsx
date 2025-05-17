@@ -1,5 +1,5 @@
-import './App.css';
-import Whiteboard from './components/Whiteboard';
+import './styles/app.css';
+import Whiteboard from './components/drawing/Whiteboard';
 import { useEffect, useState } from 'react';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

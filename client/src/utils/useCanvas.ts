@@ -32,7 +32,7 @@ export const useCanvas = (canvasTheme: Theme) => {
   useEffect(() => {
     localStorage.setItem('whiteboardPenThickness', penThickness.toString());
   }, [penThickness]);
-  // Clear canvas function
+
   const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || !canvasSize.width || !canvasSize.height) return;
@@ -42,7 +42,7 @@ export const useCanvas = (canvasTheme: Theme) => {
 
     context.fillStyle = canvasBackgroundColor;
     context.fillRect(0, 0, canvasSize.width, canvasSize.height);
-    // Don't set strokeStyle here - we'll set it when needed in drawing operations
+    // Don't set strokeStyle here - set it when needed in drawing operations
   }, [canvasBackgroundColor, canvasSize.width, canvasSize.height]);
 
   // Setup canvas and handle window resize
