@@ -124,15 +124,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
             className="color-picker"
             onFocus={() => setFocusedButton('colorPicker')}
             onBlur={() => setFocusedButton(null)}
-            style={{
-              width: '20px',
-              height: '20px',
-              padding: 0,
-              border: 'none',
-              outline: 'none',
-              cursor: 'pointer',
-              background: 'transparent'
-            }}
           />
         </div>
       </div>

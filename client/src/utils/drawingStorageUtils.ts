@@ -16,11 +16,11 @@ export const handleSaveError = (error: {message: string}) => {
 // Start with higher quality and reduce as canvas gets larger
 export const decideQuality = (canvasSize: { width: number, height: number}) => {
   const canvasArea = canvasSize.width * canvasSize.height;
-  let quality = 0.9;
-  if (canvasArea > 500000) quality = 0.8; // Medium size
-  if (canvasArea > 800000) quality = 0.7; // Large size
-  if (canvasArea > 1200000) quality = 0.6; // Very large size
-  if (canvasArea > 2000000) quality = 0.5; // Extremely large size
+  let quality = 1;
+  // if (canvasArea > 500000) quality = 1; // Medium size
+  // if (canvasArea > 800000) quality = 0.98; // Large size
+  if (canvasArea > 4000000) quality = 0.98; // Very large size
+  if (canvasArea > 8000000) quality = 0.95; // Extremely large size
 
   return quality;
 }
