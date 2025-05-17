@@ -1,6 +1,6 @@
 ## 🎨 Whiteboard Application
 
-This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to draw ideas on a canvas, save them to a database, and export them as PDF files. The application is live [here](whiteboard-rho.vercel.app).
+This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to draw ideas on a canvas, save them to a database, and export them as PDF files. The application is live [here](https://whiteboard-rho.vercel.app).
 
 ## 🌟 Overview
 
