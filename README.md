@@ -20,7 +20,7 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 </br>
 
 ## 🖥️ Screenshots
-![Whiteboard-05-17-2025_07_09_PM](https://github.com/user-attachments/assets/e194daf9-a05a-41f8-b549-69a79a92766b)
+![Whiteboard-05-17-2025_07_12_PM](https://github.com/user-attachments/assets/fd291b4d-6fa8-481c-9d28-271a0494bfec)
 
 
 
