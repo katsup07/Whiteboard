@@ -37,14 +37,14 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
 
   return (
     <>
-      <h3 style={{ marginTop: '25px', color: activeThemeColors.uiText }}>Saved Drawings</h3>
+      <h3 style={{ marginTop: '25px', marginBottom: "0px", color: activeThemeColors.uiText }}>Saved Drawings</h3>
       {drawings.length === 0 && <p style={{ color: activeThemeColors.uiText }}>No drawings saved yet.</p>}
       <ul className="saved-drawings-list" style={{
         listStyle: 'none',
         padding: '10px',
         maxHeight: '200px',
         overflowY: 'auto',
-        border: `1px solid ${activeThemeColors.borderColor}`,
+        border: `1px solid ${activeThemeColors.containerBorderColor}`,
         backgroundColor: activeThemeColors.listBackground,
         width: '100%',
         maxWidth: '800px',

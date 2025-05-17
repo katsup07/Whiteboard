@@ -54,7 +54,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
       gap: '15px',
       width: 'auto',
       minWidth: 'fit-content',
-      border: `1px solid ${activeThemeColors.borderColor}`,
+      border: `1px solid ${activeThemeColors.containerBorderColor}`,
       borderRadius: '8px',
       backgroundColor: activeThemeColors.uiBackground,
       boxShadow: '0 2px 5px rgba(0,0,0,0.1)'

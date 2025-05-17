@@ -12,6 +12,7 @@ export const defaultTheme: ThemeColors = {
   listItemHover: '#383838',
   borderColor: '#4A4A4A',
   activeBorderColor: '#3E8AE5', // Changed from purple to blue
+  containerBorderColor: 'rgb(100, 108, 255)',
   activeBackground: '#2C4A7A',  // Changed to a darker blue
   focusShadowColor: 'rgba(62, 138, 229, 0.6)', // Changed to match blue
   headerBackground: '#2C4A7A',  // Updated to match the active background

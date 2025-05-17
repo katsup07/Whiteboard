@@ -69,7 +69,7 @@
 }
 
 .saved-drawings-list li:hover {
-  background-color: rgba(157, 93, 224, 0.08) !important;
+  background-color: rgba(100, 108, 255, 0.164) !important;
 }
 
 .saved-drawings-list li span {
@@ -96,8 +96,8 @@
   margin-left: 12px;
   cursor: pointer;
   margin-left: 0px;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   outline: 'none';
   background: 'transparent'
 }
