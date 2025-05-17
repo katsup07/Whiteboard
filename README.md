@@ -20,8 +20,10 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 </br>
 
 ## 🖥️ Screenshots
+### Dark Mode in Black and White
 ![Whiteboard-05-17-2025_07_12_PM](https://github.com/user-attachments/assets/fd291b4d-6fa8-481c-9d28-271a0494bfec)
 
+## Light Mode with Full Colors
 ![Whiteboard-05-17-2025_07_17_PM](https://github.com/user-attachments/assets/940d345d-a186-44dc-89b6-f2c20b9f405c)
 
 
