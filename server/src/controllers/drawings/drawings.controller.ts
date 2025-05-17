@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from 'src/dtos/drawing.dto';
-import { DrawingsService } from 'src/services/drawings-service/drawings.service';
+import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from '../../dtos/drawing.dto';
+import { DrawingsService } from '../../services/drawings-service/drawings.service';
 
 @Controller('drawings') // Update the route to match the new resource name
 export class DrawingsController {

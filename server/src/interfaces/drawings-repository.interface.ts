@@ -1,4 +1,4 @@
-import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "src/dtos/drawing.dto";
+import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "../dtos/drawing.dto";
 
 export interface DrawingsRepository {
   findAll(): Promise<DrawingOutput[]>;

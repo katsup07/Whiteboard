@@ -2,9 +2,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Drawing, DrawingDocument } from 'src/models/drawing.model';
-import { DrawingOutput, CreateDrawingInput, UpdateDrawingInput } from 'src/dtos/drawing.dto';
-import { DrawingsRepository } from 'src/interfaces/drawings-repository.interface';
+import { Drawing, DrawingDocument } from '../models/drawing.model';
+import { DrawingOutput, CreateDrawingInput, UpdateDrawingInput } from '../dtos/drawing.dto';
+import { DrawingsRepository } from '../interfaces/drawings-repository.interface';
 @Injectable()
 export class MongoDrawingsRepository implements DrawingsRepository {  
   

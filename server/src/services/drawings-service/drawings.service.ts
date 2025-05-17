@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "src/dtos/drawing.dto";
-import { DrawingsRepository } from "src/interfaces/drawings-repository.interface";
+import { CreateDrawingInput, DrawingOutput, UpdateDrawingInput } from "../../dtos/drawing.dto";
+import { DrawingsRepository } from "../../interfaces/drawings-repository.interface";
 
 @Injectable()
 export class DrawingsService {
