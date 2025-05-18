@@ -19,15 +19,13 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 - ⚙️ Automatic saving of user preferences (pen thickness, theme)
 </br>
 
-### ▶️ Press Play to Watch GIF 
-![whiteboard-app](https://github.com/user-attachments/assets/7c87e2aa-521d-4490-b97b-230fdca0a3df)
-
 ## 🖥️ Screenshots
+### Dark Mode in Black and White
+![Whiteboard-05-17-2025_07_12_PM](https://github.com/user-attachments/assets/fd291b4d-6fa8-481c-9d28-271a0494bfec)
 
-![Blackboard](https://github.com/user-attachments/assets/0b719613-9832-4e73-96d5-25eedf1ffde5)
-</br>
+## Light Mode with Full Colors
+![Whiteboard-05-17-2025_07_17_PM](https://github.com/user-attachments/assets/940d345d-a186-44dc-89b6-f2c20b9f405c)
 
-![Whiteboard](https://github.com/user-attachments/assets/ae1b491b-62f9-4948-9940-5cb1d02981b1)
 
 
 ## 🚀 Available Scripts
