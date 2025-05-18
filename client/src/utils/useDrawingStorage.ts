@@ -72,11 +72,16 @@ export const useDrawingStorage = (
   // Save drawing
   const saveDrawing = useCallback(() => {
     const newDrawing = prepareNewDrawing();
-    if (!newDrawing) return;
+    if (!newDrawing){
+       toast.error('Could not prepare drawing for saving. Please try again.', { theme: 'dark' });
+      return;
+    }
+    
+    toast.success('Drawing saved!', { theme: 'dark' }); // optimistic UI update
+
     apiClient.saveDrawing(newDrawing)
       .then((savedDrawing) => {
         setDrawings(prev => [...prev, savedDrawing]);
-        toast.success('Drawing saved!', { theme: 'dark' });
       })
       .catch(error => {
         handleSaveError(error);
@@ -86,10 +91,18 @@ export const useDrawingStorage = (
   // Update existing drawing
   const updateDrawing = useCallback((drawingId: string) => {
     const existingDrawing = drawings.find(d => d.id === drawingId);
-    if (!existingDrawing) return;
+    if (!existingDrawing) {
+      toast.error('Could not find existing drawing. Please try again.', { theme: 'dark' });
+      return;
+    }
 
     const newDrawing = prepareNewDrawing();
-    if (!newDrawing) return;
+    if (!newDrawing) {
+       toast.error('Could not prepare drawing for saving. Please try again.', { theme: 'dark' });
+      return;
+    }
+
+    toast.success('Drawing updated!', { theme: 'dark' });// optimistic UI update
 
     newDrawing.id = drawingId;
     apiClient.updateDrawing(drawingId, newDrawing)
@@ -98,7 +111,6 @@ export const useDrawingStorage = (
           const updatedDrawings = prevDrawings.map(d => d.id === drawingId ? updatedDrawing : d);
           return updatedDrawings;
         });
-        toast.success('Drawing updated!', { theme: 'dark' });
       })
       .catch(error => {
         handleSaveError(error);
@@ -144,12 +156,13 @@ export const useDrawingStorage = (
     const confirmed = await showConfirm('Are you sure you want to delete this drawing?', 'dark');
     if (!confirmed) return;
 
+    toast.success('Drawing deleted successfully!', { theme: 'dark' }); // optimistic UI update
+
     apiClient.deleteDrawing(drawingId)
       .then(() => {
         setDrawings(prevDrawings =>
           prevDrawings.filter(d => d.id !== drawingId)
         );
-        toast.success('Drawing deleted successfully!', { theme: 'dark' });
       })
       .catch(error => {
         console.error('Error deleting drawing from database:', error);

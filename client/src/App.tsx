@@ -24,7 +24,7 @@ function App() {
       <Whiteboard canvasTheme={canvasTheme} onCanvasThemeChange={toggleCanvasTheme} />
       <ToastContainer 
         position="top-right" 
-        autoClose={3000} 
+        autoClose={2000} 
         transition={Zoom} 
         theme={"dark"} // Toast container will always be dark
         pauseOnHover
