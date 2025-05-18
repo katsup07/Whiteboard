@@ -10,7 +10,7 @@ export const useCanvas = (canvasTheme: Theme) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lastPosition, setLastPosition] = useState<Point | null>(null);
-  const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth - 40, height: 600 });
+  const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth - 40, height: window.innerHeight * 0.8 });
   const [drawingMode, setDrawingMode] = useState<'draw' | 'erase'>('draw');
   const [penThickness, setPenThickness] = useState<number>(2);
   
@@ -55,7 +55,7 @@ export const useCanvas = (canvasTheme: Theme) => {
 
     const handleResize = () => {
       const newWidth = window.innerWidth - 40;
-      const newHeight = 600;
+      const newHeight = window.innerHeight * 0.8;
 
       const ratio = window.devicePixelRatio || 1;
       canvas.width = newWidth * ratio;
