@@ -153,7 +153,7 @@ export const useDrawingStorage = (
 
   // Delete drawing
   const deleteDrawing = useCallback(async (drawingId: string) => {
-    const confirmed = await showConfirm('Are you sure you want to delete this drawing?', 'dark');
+    const confirmed = await showConfirm('Do you want to delete this drawing?', 'dark');
     if (!confirmed) return;
 
     toast.success('Drawing deleted successfully!', { theme: 'dark' }); // optimistic UI update

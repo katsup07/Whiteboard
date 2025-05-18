@@ -49,7 +49,7 @@ export const showConfirm = (message: string, theme: Theme): Promise<boolean> => 
   return new Promise((resolve) => {
     toast.warn(
       <div>
-        <p>{message}</p>
+        <p style={{ textAlign: 'left', fontStyle: 'italic', margin: "0" }}>{message}</p>
         <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
           <button 
             onClick={() => {
@@ -60,8 +60,8 @@ export const showConfirm = (message: string, theme: Theme): Promise<boolean> => 
               padding: '5px 10px',
               border: '1px solid 000000',
               borderRadius: '4px',
-              backgroundColor: '#6100c9c5',
-              color: theme === 'dark' ? '#ffffff' : '#ffffff',
+              backgroundColor: '#646cff',
+              color: 'black',
               cursor: 'pointer'
             }}
           >
@@ -74,7 +74,7 @@ export const showConfirm = (message: string, theme: Theme): Promise<boolean> => 
             }}
             style={{
               padding: '5px 10px',
-              border: '1px solid #ccc',
+              border: '1px solid #646cff',
               borderRadius: '4px',
               backgroundColor: 'transparent',
               cursor: 'pointer',
