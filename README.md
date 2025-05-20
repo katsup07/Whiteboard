@@ -55,22 +55,6 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 - 📑 jsPDF - PDF export functionality
 - 🎨 Canvas API - Drawing functionality
 
-## 🛠️ Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/whiteboard-app.git
-
-# Navigate to the project directory
-cd whiteboard-app
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-
 ## 🗄️ Database Setup
 
 This application requires MongoDB for storing drawings and user data. You'll need to:
