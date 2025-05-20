@@ -2,6 +2,26 @@
 
 This is a simple whiteboard application built with React, Vite, and TypeScript. It allows users to draw ideas on a canvas, save them to a database, and export them as PDF files. The application is live [here](https://whiteboard-m78d.vercel.app/).
 
+## 🚀 Installation and Development
+
+### 🖥️ Client Folder
+`npm install`
+<br/>`npm run dev`
+
+### 🔧 Server Folder
+`npm install`
+<br/>`npm run start:dev`
+
+
+
+### or
+
+## 🐳 Docker Development Environment(Optional)
+
+This project supports fully containerized development using [Docker](https://www.docker.com/get-started/), enabling minimal local environment setup.
+From the root folder, you can run both the client and server with a single command: `npm run docker:start`. 
+<br/> <sub>Note: The local files are mounted into the containers, so any changes made locally will automatically be reflected inside the container, with live reload enabled.</sub>
+
 ## 🌟 Overview
 
 The Whiteboard Application provides a digital canvas for drawing, sketching, and brainstorming. It features an intuitive interface with tools for different drawing modes, customizable pen thickness, and theme options to suit your preferences. Perfect for teachers, students, designers, or anyone who needs a quick visual collaboration tool.
@@ -25,41 +45,6 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 
 ## Light Mode with Full Colors
 ![Whiteboard-05-17-2025_07_17_PM](https://github.com/user-attachments/assets/940d345d-a186-44dc-89b6-f2c20b9f405c)
-
-
-
-## 🚀 Available Scripts
-
-In the project directory, you can run:
-
-### `npm run dev`
-
-Runs the app in development mode.
-Open [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal) to view it in the browser.
-
-The page will reload if you make edits.
-You will also see any lint errors in the console.
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.
-Your app is ready to be deployed!
-
-### `npm run lint` 🧹
-
-Lints the project files using ESLint.
-
-### `npm run preview` 👁️
-
-Serves the production build locally to preview it before deployment.
-
-## 🐳 Docker Development Environment(Optional)
-This project supports fully containerized development using [Docker](https://www.docker.com/get-started/), enabling minimal local environment setup.
-From the root folder, you can run both the client and server with a single command: `npm run docker:start`. 
-<br/> <sub>Note: The local files are mounted into the containers, so any changes made locally will automatically be reflected inside the container, with live reload enabled.</sub>
 
 ## 📚 Key Libraries Used
 
