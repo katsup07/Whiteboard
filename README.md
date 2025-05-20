@@ -56,6 +56,11 @@ Lints the project files using ESLint.
 
 Serves the production build locally to preview it before deployment.
 
+## 🐳 Docker Development Environment(Optional)
+This project supports fully containerized development using [Docker](https://www.docker.com/get-started/), enabling minimal local environment setup.
+From the root folder, you can run both the client and server with a single command: `npm run docker:start`. 
+<br/> <sub>Note: The local files are mounted into the containers, so any changes made locally will automatically be reflected inside the container, with live reload enabled.</sub>
+
 ## 📚 Key Libraries Used
 
 - ⚛️ React - Frontend framework
