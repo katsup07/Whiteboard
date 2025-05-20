@@ -1,15 +1,15 @@
-FROM node:18-alpine
+FROM node:18.20.4
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY nodemonConfig.js ./
 
 RUN npm install
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+CMD ["npm", "run", "start:dev:docker"]

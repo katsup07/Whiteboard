@@ -49,7 +49,7 @@ export const showConfirm = (message: string, theme: Theme): Promise<boolean> => 
   return new Promise((resolve) => {
     toast.warn(
       <div>
-        <p style={{ textAlign: 'left', fontStyle: 'italic', margin: "0" }}>{message}</p>
+        <p style={{ textAlign: 'left', margin: "0" }}>{message}</p>
         <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
           <button 
             onClick={() => {

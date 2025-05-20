@@ -1,0 +1,52 @@
+version: '3.8'
+services:  
+  server:
+    container_name: whiteboard-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    
+    volumes:
+      - ./server:/app
+    #   - logs:/app/logs   # TODO: use after setting up persistent logging
+      - /app/node_modules
+    env_file:
+      - ./server/.env
+    environment:
+      - DOCKER_ENVIRONMENT=true
+      - NODE_ENV=development
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  client:
+    container_name: whiteboard-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true        
+    env_file:
+      - ./client/.env    
+    environment:
+      - DOCKER_ENVIRONMENT=true
+    depends_on:
+      server:
+        condition: service_healthy # Wait for server to be up and running
+    restart: unless-stopped
+
+## TODO
+# volumes:
+# #   logs:
