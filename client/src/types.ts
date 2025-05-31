@@ -31,6 +31,9 @@ export interface ThemeColors {
   focusShadowColor: string; // Shadow color for focused elements
   headerBackground: string; // Added for header background color
   iconFilter?: string;      // Optional filter for icons (e.g., invert for dark mode)
+  errorText?: string;       // Optional error text color
+  successText?: string;     // Optional success text color
+  errorBackground?: string; // Optional error background color
 }
 
 // Common props

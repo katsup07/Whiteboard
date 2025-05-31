@@ -48,7 +48,9 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ canvasTheme, onCanvasThemeChang
     loadDrawing,
     updateDrawing,
     deleteDrawing,
-    exportToPdf
+    exportToPdf,
+    isDrawingsLoading,
+    error,
   } = useDrawingStorage(clearCanvas, canvasRef, canvasSize, canvasTheme, activeThemeColors);
 
   const toggleCanvasTheme = async () => {
@@ -111,6 +113,8 @@ const Whiteboard: React.FC<WhiteboardProps> = ({ canvasTheme, onCanvasThemeChang
           deleteDrawing={deleteDrawing}
           focusedButton={focusedButton}
           setFocusedButton={setFocusedButton}
+          isDrawingsLoading={isDrawingsLoading}
+          error={error}
         />
       </div>
     </div>

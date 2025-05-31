@@ -117,3 +117,17 @@
   border-color: #3E8AE5 !important;
   box-shadow: 0 0 8px 1px rgba(62, 138, 229, 0.6) !important;
 }
+
+/* Add fade-in animation for error messages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.message-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}

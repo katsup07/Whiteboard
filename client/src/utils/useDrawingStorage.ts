@@ -23,6 +23,8 @@ export const useDrawingStorage = (
   const [drawings, setDrawings] = useState<Drawing[]>([]);
   const [currentDrawingName, setCurrentDrawingName] = useState<string>('My Drawing');
   const apiClient = ApiClient.getInstance();
+  const [isDrawingsLoading, setIsDrawingsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Determine canvas background color based on canvasTheme for saving/exporting
   const canvasBackgroundColorForStorage = canvasTheme === 'light' ? '#FFFFFF' : uiThemeColors.background; // Use uiThemeColors for dark bg
@@ -30,6 +32,8 @@ export const useDrawingStorage = (
   // Load drawings from db
   useEffect(() => {
     const fetchDrawings = async () => {
+      setIsDrawingsLoading(true);
+      setError(null); // Reset error state before fetching
       try {
         const savedDrawings = await apiClient.getDrawings();
         if (!savedDrawings || savedDrawings.length === 0) return;
@@ -37,6 +41,9 @@ export const useDrawingStorage = (
         setDrawings(savedDrawings);
       } catch (error) {
         console.error('Error fetching drawings:', error);
+        setError('Failed to load saved drawings. Please try again later.');
+      } finally {
+        setIsDrawingsLoading(false);
       }
     };
     fetchDrawings();
@@ -78,7 +85,7 @@ export const useDrawingStorage = (
     }
     
     toast.success('Drawing saved!', { theme: 'dark' }); // optimistic UI update
-
+    setError(null);
     apiClient.saveDrawing(newDrawing)
       .then((savedDrawing) => {
         setDrawings(prev => [...prev, savedDrawing]);
@@ -210,6 +217,8 @@ export const useDrawingStorage = (
     updateDrawing,
     loadDrawing,
     deleteDrawing,
-    exportToPdf
+    exportToPdf,
+    isDrawingsLoading,
+    error,
   };
 };

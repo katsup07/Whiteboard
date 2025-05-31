@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { WithFocusProps, Drawing } from '../../types'; 
 import { defaultTheme } from '../../utils/themeUtils'; 
+
+
 
 interface SavedDrawingsListProps extends WithFocusProps { 
   drawings: Drawing[];
   loadDrawing: (id: string, dataUrl: string) => void;
   deleteDrawing: (id: string) => void;
   updateDrawing: (id: string) => void;
+  isDrawingsLoading: boolean;
+  error: string | null;
 }
 
 const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
@@ -15,7 +19,9 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
   updateDrawing,
   deleteDrawing,
   focusedButton,
-  setFocusedButton
+  setFocusedButton,
+  isDrawingsLoading,
+  error
 }) => {
   const activeThemeColors = defaultTheme;
 
@@ -34,6 +40,46 @@ const SavedDrawingsList: React.FC<SavedDrawingsListProps> = ({
     transition: 'all 0.2s ease-in-out',
     boxShadow: focusedButton === buttonId ? `0 0 8px 1px ${activeThemeColors.activeBorderColor}` : 'none',
   });
+
+    const useGetMovingLoadingText = (): JSX.Element => {
+    const [dots, setDots] = useState("");
+
+    React.useEffect(() => {
+      const interval = setInterval(() => {
+        setDots((prev) => (prev.length < 3 ? prev + "." : ""));
+      }, 500);
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return <>{`Loading saved drawings${dots}`}</>;
+  }
+
+  const movingLoadingText = useGetMovingLoadingText();
+
+
+  if (isDrawingsLoading)
+    return <p className="message-fade-in" style={{ color: activeThemeColors.uiText }}>{movingLoadingText}</p>;  if (error)
+    return (
+      <>
+        <h3 style={{ marginTop: '25px', marginBottom: "0px", color: activeThemeColors.uiText }}>Saved Drawings</h3>
+        <p 
+          className="message-fade-in"
+          style={{ 
+            color: activeThemeColors.errorText, 
+            background: activeThemeColors.errorBackground,
+            padding: '10px', 
+            borderRadius: '4px', 
+            border: `1px solid ${activeThemeColors.containerBorderColor}`,
+            backdropFilter: 'blur(1px)',
+            WebkitBackdropFilter: 'blur(1px)',
+            transition: 'all 0.2s ease-in-out',
+          }}
+        >
+          Error loading drawings: {error}
+        </p>
+      </>
+    );
 
   return (
     <>

@@ -14,7 +14,8 @@ export const defaultTheme: ThemeColors = {
   activeBorderColor: '#3E8AE5',
   containerBorderColor: 'rgb(100, 108, 255)',
   activeBackground: '#2C4A7A',
-  focusShadowColor: 'rgba(62, 138, 229, 0.6)',
-  headerBackground: '#2C4A7A',
-  iconFilter: 'invert(100%) brightness(1.5)',
+  focusShadowColor: 'rgba(62, 138, 229, 0.6)',  headerBackground: '#2C4A7A',  iconFilter: 'invert(100%) brightness(1.5)',
+  errorText: '#B085FF',
+  errorBackground: 'rgba(42, 27, 74, 0.2)',
+  successText: '#4CAF50',
 };
