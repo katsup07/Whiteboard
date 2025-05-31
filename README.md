@@ -48,7 +48,7 @@ The Whiteboard Application provides a digital canvas for drawing, sketching, and
 
 ## 📚 Key Libraries Used
 
-- ⚛️ React - Frontend framework
+- ⚛️ React - Frontend UI Library
 - 🐈 Nest.js - Backend framework
 - ⚡ Vite - Build tool
 - 📘 TypeScript - Programming language
